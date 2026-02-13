@@ -8,10 +8,8 @@ public class UserRepository {
 
     public UserRepository() {
 
-        users.add(new User("Raasyid", "Rasyid123", 9000, "admin"));
-        users.add(new User("Rillah", "Rillah456", 1000, "customer"));
-        users.add(new User("Ega", "Rillah456", 7000, "customer"));
-        users.add(new User("KIKI", "Rillah456", 100123, "customer"));
+        users.add(new User("admin", "admin123", 0, "admin"));
+        users.add(new User("user1", "user123", 100000, "customer"));
     }
 
     public User findByUsername(String username) {
