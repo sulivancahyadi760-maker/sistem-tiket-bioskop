@@ -1,5 +1,7 @@
 package service;
 
+import model.Admin;
+import model.Customer;
 import model.User;
 import repository.UserRepository;
 
@@ -38,9 +40,15 @@ public class AuthService {
             System.out.println("Username sudah ada!");
             return false;
         }
-        User newUser = new User(username, password, saldo, role);
+        User newUser;
+        if ("admin".equalsIgnoreCase(role)) {
+            newUser = new Admin(username, password, saldo);
+        } else {
+            newUser = new Customer(username, password, saldo);
+        }
+
         userRepo.addUser(newUser);
-        System.out.println("User berhasil didaftarkan!");
+        System.out.println("User berhasil didaftarkan sebagai " + role);
         return true;
     }
 }

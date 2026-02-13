@@ -1,5 +1,7 @@
 package repository;
 
+import model.Admin;
+import model.Customer;
 import model.User;
 import java.util.ArrayList;
 
@@ -8,10 +10,10 @@ public class UserRepository {
 
     public UserRepository() {
 
-        users.add(new User("Raasyid", "Rasyid123", 9000, "admin"));
-        users.add(new User("Rillah", "Rillah456", 1000, "customer"));
-        users.add(new User("Ega", "Rillah456", 7000, "customer"));
-        users.add(new User("KIKI", "Rillah456", 100123, "customer"));
+        users.add(new Admin("Raasyid", "Rasyid123", 9000));
+        users.add(new Customer("Rillah", "Rillah456", 1000));
+        users.add(new Customer("Ega", "Rillah456", 7000));
+        users.add(new Customer("KIKI", "Rillah456", 100123));
     }
 
     public User findByUsername(String username) {

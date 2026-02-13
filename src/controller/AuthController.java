@@ -1,5 +1,7 @@
 package controller;
 
+import model.Admin;
+import model.Customer;
 import model.User;
 import service.AuthService;
 
@@ -15,10 +17,10 @@ public class AuthController {
         User user = authService.login(username, password);
         if (user != null) {
             currentUser = user;
-            if (user.getRole().equals("admin")) {
-                System.out.println("..........");
-            } else {
-                System.out.println("........");
+            if (user instanceof Admin) {
+                System.out.println("Masuk ke halaman dashboard");
+            } else if (user instanceof Customer) {
+                System.out.println("Masuk ke halaman pemesanan");
             }
         } else {
             System.out.println("Login gagal");

@@ -1,32 +1,24 @@
 package model;
 
-public class User {
+public abstract class User {
     private String username;
     private String password;
     private int saldo;
 
-    // Constructor
     public User(String username, String password, int saldo) {
         this.username = username;
-        this.saldo = saldo;
         this.password = password;
+        this.saldo = saldo;
     }
 
-    // getter setter
+    public abstract String getRole();
+
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public int getSaldo() {
@@ -34,10 +26,6 @@ public class User {
     }
 
     public void setSaldo(int saldo) {
-        if (saldo > 0) {
-            this.saldo = saldo;
-        }else{
-            System.out.println("Error. Saldo tidak boleh negatif");
-        }
+        this.saldo = saldo;
     }
 }
