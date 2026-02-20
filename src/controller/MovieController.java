@@ -1,33 +1,20 @@
 package controller;
 
-import java.util.List;
-
-import model.Movie;
-import repository.MovieRepository;
+import service.MovieService;
 
 public class MovieController {
-    //tambah hapus film
+    private MovieService movieService;
 
-    private MovieRepository movieRepo;
-    private List<Movie> seluruhMovie; 
-    
-    MovieController(MovieRepository movieRepo){
-        this.movieRepo = movieRepo;
-        this.seluruhMovie = this.movieRepo.getAllMovies();
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
     }
 
-    public void addFilm(Movie movie){
-        if(!seluruhMovie.contains(movie)){
-            seluruhMovie.add(movie);
-        }
+    public boolean addFilm(String namaFilm, int durasi, String genre) {
+        return movieService.addFilm(namaFilm, durasi, genre);
     }
 
-    public void deleteFilm(String namaFilm){
-        for(Movie mv : seluruhMovie){
-            if(mv.getNamaFilm().equals(namaFilm)){
-                seluruhMovie.remove(mv);
-                break;
-            }
-        }
+    public boolean deleteFilm(String namaFilm) {
+        return movieService.deleteFilm(namaFilm);
     }
+
 }

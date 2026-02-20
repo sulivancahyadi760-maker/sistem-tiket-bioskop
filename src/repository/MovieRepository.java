@@ -1,7 +1,6 @@
 package repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import model.Movie;
@@ -10,13 +9,11 @@ public class MovieRepository {
     List<Movie> movieList = new ArrayList<>();
 
     public MovieRepository() {
-        Movie movie1 = new Movie(1, "Stand by Me Doraemon", 120, "Animasi");
-        Movie movie2 = new Movie(2, "Avatar : Fire and Ash", 200, "Science Fiction");
-        Movie movie3 = new Movie(3, "Stand by Me Doraemon", 120, "Animasi");
-        Movie movie4 = new Movie(4, "Interstellar", 120, "Science Fiction");
-        Movie movie5 = new Movie(5, "Stand by Me Doraemon", 120, "Animasi");
-        movieList.addAll(Arrays.asList(movie1, movie2, movie3, movie4, movie5));
-
+        movieList.add(new Movie(1, "Inception", 148, "Sci-Fi"));
+        movieList.add(new Movie(2, "The Dark Knight", 152, "Action"));
+        movieList.add(new Movie(3, "Interstellar", 169, "Adventure"));
+        movieList.add(new Movie(4, "Spirited Away", 125, "Animation"));
+        movieList.add(new Movie(5, "The Godfather", 175, "Crime"));
     }
 
     public Movie findMovie(String namaFilm) {
@@ -30,5 +27,13 @@ public class MovieRepository {
 
     public List<Movie> getAllMovies() {
         return movieList;
+    }
+
+    public void addFilm(Movie mv) {
+        movieList.add(mv);
+    }
+
+    public void deleteFilm(Movie mv) {
+        movieList.remove(mv);
     }
 }

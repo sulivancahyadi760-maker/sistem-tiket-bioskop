@@ -1,15 +1,36 @@
 import model.*;
+import controller.*;
+import repository.*;
+import service.*;
 
 public class Main {
     public static void main(String[] args) {
+        var userRepo = new UserRepository();
+        var tiketRepo = new TiketRepository();
+        var movieRepo = new MovieRepository();
+        var scheduleRepo = new ScheduleRepository();
 
-        Customer c1 = new Customer("Rillah", "rila11", 100000);
-        Movie m1 = new Movie(1, "Doraemon: Stand By Me", 120, "Animasi");
-        Studio s1 = new Studio(1, "Studio 1 - CGV", 50, "Reguler");
-        Schedule sch1 = new Schedule(101, m1, s1, "19:00 WIB");
-        Tiket t1 = new Tiket(5001, u1, sch1, "C4", 35000);
+        var bookingService = new BookingService(tiketRepo);
+        var scheduleService = new ScheduleService(scheduleRepo);
+        var bookingController = new BookingController(bookingService);
 
-        t1.printTiket();
+        // simulasi pemesanan tiket
+        Movie film = movieRepo.findMovie("Interstellar");
+        Studio studio = scheduleRepo.getAllStudios().get(0);
+        scheduleService.addSchedule(film, studio, "14:00");
 
+        Customer customer = (Customer) userRepo.findByUsername("KIKI");
+        Schedule jadwal = scheduleService.getAllSchedules().get(0);
+
+        boolean berhasil = bookingController.pesanTiket(customer, jadwal, "A-12", 45000);
+
+        // kondisi kalo berhasil cetak tiket
+        if (berhasil) {
+            System.out.println("Status: Berhasil dipesan ");
+            var tiketKiki = tiketRepo.findByUsername("KIKI");
+            tiketKiki.get(0).printTiket();
+        } else {
+            System.out.println("Status: Gagal dipesan");
+        }
     }
 }
