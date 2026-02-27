@@ -7,63 +7,33 @@ class Main {
 
 package controller {
     class AuthController {
-        - authService: AuthService
+        - userRepo: UserRepository
         - currentUser: User
-        + AuthController(service: AuthService)
-        + login(username: String, password: String): void
+        + AuthController(repo: UserRepository)
+        + login(username: String, password: String): User
         + logout(): void
+        + register(username: String, password: String, saldo: int, role: String): boolean
         + getCurrentUser(): User
     }
 
     class BookingController {
-        - bookingService: BookingService
-        + BookingController(bookingService: BookingService)
+        - tiketRepo: TiketRepository
+        + BookingController(repo: TiketRepository)
+        + isSeatAvailable(schedule: Schedule, seat: String): boolean
         + pesanTiket(customer: Customer, schedule: Schedule, seat: String, harga: int): boolean
     }
 
     class ScheduleController {
-        - scheduleService: ScheduleService
-        + ScheduleController(scheduleService: ScheduleService)
+        - schRepo: ScheduleRepository
+        + ScheduleController(repo: ScheduleRepository)
         + addSchedule(mv: Movie, std: Studio, jamTayang: String): boolean
         + getAllSchedules(): List<Schedule>
         + getAllStudios(): List<Studio>
     }
 
     class MovieController {
-        - movieService: MovieService
-        + MovieController(movieRepo: MovieRepository)
-        + addFilm(namaFilm: String, durasi: int, genre: String): boolean
-        + deleteFilm(namaFilm: String): boolean
-    }
-}
-
-package service {
-    class AuthService {
-        - userRepo: UserRepository
-        + AuthService(repo: UserRepository)
-        + login(username: String, password: String): User
-        + logout(user: User): void
-        + register(username: String, password: String, saldo: int, role: String): boolean
-    }
-
-    class BookingService {
-        - tiketRepo: TiketRepository
-        + BookingService(tiketRepo: TiketRepository)
-        + isSeatAvailable(schedule: Schedule, seat: String): boolean
-        + pesanTiket(customer: Customer, sch: Schedule, seat: String, harga: int): boolean
-    }
-
-    class ScheduleService {
-        - scheduleRepo: ScheduleRepository
-        + ScheduleService(scheduleRepo: ScheduleRepository)
-        + addSchedule(mv: Movie, std: Studio, jamTayang: String): boolean
-        + getAllSchedules(): List<Schedule>
-        + getAllStudios(): List<Studio>
-    }
-
-    class MovieService {
         - movieRepo: MovieRepository
-        + MovieService(movieRepo: MovieRepository)
+        + MovieController(repo: MovieRepository)
         + addFilm(namaFilm: String, durasi: int, genre: String): boolean
         + deleteFilm(namaFilm: String): boolean
         + filterByGenre(genre: String): List<Movie>
@@ -73,7 +43,6 @@ package service {
 package repository {
     class UserRepository {
         - users: List<User>
-        + UserRepository()
         + findByUsername(username: String): User
         + addUser(user: User): void
         + getAllUsers(): List<User>
@@ -81,25 +50,20 @@ package repository {
 
     class TiketRepository {
         - tikets: List<Tiket>
-        + addTiket(): void
         + addTiket(tiket: Tiket): void
-        + findTiket(datatiket: String): Tiket
         + getAllTiket(): List<Tiket>
-        + findByUsername(username: String): List<Tiket>
     }
 
     class ScheduleRepository {
-        - schdules: List<Schedule>
+        - schedules: List<Schedule>
         - studios: List<Studio>
-        + ScheduleRepository()
-        + addSchedule(Movie mv)
-        + getAllSchedules(): List<Schedule>
+        + addSchedule(sch: Schedule): void
+        + getAllSchedule(): List<Schedule>
         + getAllStudios(): List<Studio>
     }
 
     class MovieRepository {
         - movieList: List<Movie>
-        + MovieRepository()
         + findMovie(namaFilm: String): Movie
         + getAllMovies(): List<Movie>
         + addFilm(mv: Movie): void
@@ -141,12 +105,6 @@ package model {
         + getJadwalFilm(): Schedule
         + getSeat(): String
         + getHarga(): int
-        + setTiketId(tiketId: int): void
-        + setUser(user: User): void
-        + setJadwalFilm(jadwalFilm: Schedule): void
-        + setSeat(seat: String): void
-        + setHarga(harga: int): void
-        + printTiket(): void
     }
 
     class Schedule {
@@ -154,15 +112,11 @@ package model {
         - movie: Movie
         - studio: Studio
         - jamTayang: String
-        + Schedule(scheduleId: int, movie: Movie, studio: Studio, jamTayang: String)
+        + Schedule(id: int, mv: Movie, std: Studio, jam: String)
         + getScheduleId(): int
         + getMovie(): Movie
         + getStudio(): Studio
         + getJamTayang(): String
-        + setScheduleId(scheduleId: int): void
-        + setMovie(movie: Movie): void
-        + setStudio(studio: Studio): void
-        + setJamTayang(jamTayang: String): void
     }
 
     class Studio {
@@ -170,15 +124,9 @@ package model {
         - namaStudio: String
         - kapasitas: int
         - tipeStudio: String
-        + Studio(studioId: int, namaStudio: String, kapasitas: int, tipeStudio: String)
+        + Studio(id: int, nama: String, kap: int, tipe: String)
         + getStudioId(): int
         + getNamaStudio(): String
-        + getKapasitas(): int
-        + getTipeStudio(): String
-        + setStudioId(studioId: int): void
-        + setNamaStudio(namaStudio: String): void
-        + setKapasitas(kapasitas: int): void
-        + setTipeStudio(tipeStudio: String): void
     }
 
     class Movie {
@@ -186,29 +134,21 @@ package model {
         - namaFilm: String
         - durasi: int
         - genre: String
-        + Movie(id: int, namaFilm: String, durasi: int, genre: String)
-        + getId(): int
+        + Movie(id: int, nama: String, durasi: int, genre: String)
         + getNamaFilm(): String
-        + getDurasi(): int
         + getGenre(): String
-        + setId(id: int): void
-        + setNamaFilm(namaFilm: String): void
-        + setDurasi(durasi: int): void
-        + setGenre(genre: String): void
     }
 }
 
 Main --> AuthController
+Main --> MovieController
+Main --> ScheduleController
+Main --> BookingController
 
-AuthController --> AuthService
-BookingController --> BookingService
-ScheduleController --> ScheduleService
-MovieController --> MovieService
-
-AuthService --> UserRepository
-BookingService --> TiketRepository
-ScheduleService --> ScheduleRepository
-MovieService --> MovieRepository
+AuthController --> UserRepository
+BookingController --> TiketRepository
+ScheduleController --> ScheduleRepository
+MovieController --> MovieRepository
 
 UserRepository o-- User
 TiketRepository o-- Tiket

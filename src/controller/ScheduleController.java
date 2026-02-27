@@ -1,29 +1,41 @@
 package controller;
 
 import java.util.List;
-
 import model.Movie;
 import model.Schedule;
 import model.Studio;
-import service.ScheduleService;
+import repository.ScheduleRepository;
 
 public class ScheduleController {
-    private ScheduleService schService;
+    private ScheduleRepository schRepo;
 
-    public ScheduleController(ScheduleService schService) {
-        this.schService = schService;
+    public ScheduleController(ScheduleRepository schRepo) {
+        this.schRepo = schRepo;
     }
 
     public boolean addSchedule(Movie mv, Studio std, String jamTayang) {
-        return schService.addSchedule(mv, std, jamTayang);
+        if (mv == null || std == null || jamTayang == null || jamTayang.trim().isEmpty()) {
+            return false;
+        }
+
+        for (Schedule s : schRepo.getAllSchedule()) {
+            if (s.getStudio().getNamaStudio() == std.getNamaStudio() && s.getJamTayang().equalsIgnoreCase(jamTayang)) {
+                System.out.println("Studio sudah dipakai di jam tayang tersebut");
+                return false;
+            }
+        }
+
+        Schedule newSchedule = new Schedule(mv, std, jamTayang);
+
+        schRepo.addSchedule(newSchedule);
+        return true;
     }
 
     public List<Studio> getAllStudios() {
-        return schService.getAllStudios();
+        return schRepo.getAllStudios();
     }
 
     public List<Schedule> getAllSchedules() {
-        return schService.getAllSchedules();
+        return schRepo.getAllSchedule();
     }
-
 }
