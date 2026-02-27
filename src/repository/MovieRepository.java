@@ -9,11 +9,11 @@ public class MovieRepository {
     List<Movie> movieList = new ArrayList<>();
 
     public MovieRepository() {
-        movieList.add(new Movie(1, "Inception", 148, "Sci-Fi"));
-        movieList.add(new Movie(2, "The Dark Knight", 152, "Action"));
-        movieList.add(new Movie(3, "Interstellar", 169, "Adventure"));
-        movieList.add(new Movie(4, "Spirited Away", 125, "Animation"));
-        movieList.add(new Movie(5, "The Godfather", 175, "Crime"));
+        movieList.add(new Movie("Inception", 148, "Sci-Fi"));
+        movieList.add(new Movie("The Dark Knight", 152, "Action"));
+        movieList.add(new Movie("Interstellar", 169, "Adventure"));
+        movieList.add(new Movie( "Spirited Away", 125, "Animation"));
+        movieList.add(new Movie( "The Godfather", 175, "Crime"));
     }
 
     public Movie findMovie(String namaFilm) {

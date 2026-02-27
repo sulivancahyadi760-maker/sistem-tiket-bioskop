@@ -1,28 +1,17 @@
 package model;
 
 public class Tiket {
-    private int tiketId;
     private User user;
     private Schedule jadwalFilm;
     private String seat;
     private int harga;
 
     // Konstruktor
-    public Tiket(int tiketId, User user, Schedule jadwalFilm, String seat, int harga) {
-        this.tiketId = tiketId;
+    public Tiket(User user, Schedule jadwalFilm, String seat, int harga) {
         this.user = user;
         this.jadwalFilm = jadwalFilm;
         this.seat = seat;
         this.harga = harga;
-    }
-
-    // Getter dan Setter
-    public int getTiketId() {
-        return tiketId;
-    }
-
-    public void setTiketId(int tiketId) {
-        this.tiketId = tiketId;
     }
 
     public User getUser() {
@@ -59,7 +48,6 @@ public class Tiket {
 
     public void printTiket() {
         System.out.println("===== RINGKASAN PEMESANAN TIKET =====");
-        System.out.println("ID Tiket     : " + getTiketId());
         System.out.println("Nama Pembeli : " + getUser().getUsername());
         System.out.println("Film         : " + getJadwalFilm().getMovie().getNamaFilm());
         System.out.println("Studio       : " + getJadwalFilm().getStudio().getNamaStudio());

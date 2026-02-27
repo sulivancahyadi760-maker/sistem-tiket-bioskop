@@ -1,24 +1,14 @@
 package model;
 
 public class Movie {
-    private int id;
     private String namaFilm;
     private int durasi;
     private String genre;
 
-    public Movie(int id, String namaFilm, int durasi, String genre) {
-        this.id = id;
+    public Movie( String namaFilm, int durasi, String genre) {
         this.namaFilm = namaFilm;
         this.durasi = durasi;
         this.genre = genre;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNamaFilm() {

@@ -1,14 +1,12 @@
 package model;
 
 public class Studio {
-    private int studioId;
     private String namaStudio;
     private int kapasitas;
     private String tipeStudio;
 
     // Konstruktor
-    public Studio(int studioId, String namaStudio, int kapasitas, String tipeStudio) {
-        this.studioId = studioId;
+    public Studio(String namaStudio, int kapasitas, String tipeStudio) {
         this.namaStudio = namaStudio;
         this.kapasitas = kapasitas;
         this.tipeStudio = tipeStudio;
@@ -38,13 +36,4 @@ public class Studio {
     public void setTipeStudio(String tipeStudio) {
         this.tipeStudio = tipeStudio;
     }
-
-    public int getStudioId() {
-        return studioId;
-    }
-
-    public void setStudioId(int studioId) {
-        this.studioId = studioId;
-    }
-
 }
