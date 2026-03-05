@@ -68,6 +68,7 @@ public class AuthController {
     public boolean topUp(int jml) {
         if (currentUser != null) {
             currentUser.setSaldo(currentUser.getSaldo() + jml);
+            return true;
         }
         return false;
     }
