@@ -3,17 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/Main.java</file>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/controller/AuthController.java</file>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/controller/BookingController.java</file>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/controller/MovieController.java</file>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/model/Movie.java</file>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/model/Schedule.java</file>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/model/Studio.java</file>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/model/Tiket.java</file>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/model/User.java</file>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/repository/MovieRepository.java</file>
-            <file>file:/D:/Kuliah/Rillah%20Teknik%20Informatika/Semester%202/kata-kiki-bebas-dan-kami-setuju/src/repository/TicketRepository.java</file>
+            <file>file:/D:/Study/backend/sistem-tiket-bioskop/src/view/login/LoginPanel.java</file>
+            <file>file:/D:/Study/backend/sistem-tiket-bioskop/src/view/MainFrame.java</file>
+            <file>file:/D:/Study/backend/sistem-tiket-bioskop/src/app/App.java</file>
         </group>
     </open-files>
 </project-private>

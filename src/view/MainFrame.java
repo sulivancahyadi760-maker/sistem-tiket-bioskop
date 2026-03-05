@@ -27,8 +27,6 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(new view.admin.AdminPanel(this, movieCtrl, schCtrl), "admin");
         getContentPane().add(new view.customer.CustomerPanel(this, movieCtrl, schCtrl, bookCtrl), "customer");
 
-        this.setSize(800, 600);
-        this.setLocationRelativeTo(null);
         cardLayout.show(getContentPane(), "login");
     }
 
