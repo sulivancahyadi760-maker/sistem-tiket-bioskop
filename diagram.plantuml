@@ -101,13 +101,11 @@ package model {
     }
 
     class Tiket {
-        - tiketId: int
         - user: User
         - jadwalFilm: Schedule
         - seat: String
         - harga: int
-        + Tiket(tiketId: int, user: User, jadwalFilm: Schedule, seat: String, harga: int)
-        + getTiketId(): int
+        + Tiket(user: User, jadwalFilm: Schedule, seat: String, harga: int)
         + getUser(): User
         + getJadwalFilm(): Schedule
         + getSeat(): String
@@ -115,33 +113,28 @@ package model {
     }
 
     class Schedule {
-        - scheduleId: int
         - movie: Movie
         - studio: Studio
         - jamTayang: String
-        + Schedule(id: int, mv: Movie, std: Studio, jam: String)
-        + getScheduleId(): int
+        + Schedule( mv: Movie, std: Studio, jam: String)
         + getMovie(): Movie
         + getStudio(): Studio
         + getJamTayang(): String
     }
 
     class Studio {
-        - studioId: int
         - namaStudio: String
         - kapasitas: int
         - tipeStudio: String
-        + Studio(id: int, nama: String, kap: int, tipe: String)
-        + getStudioId(): int
+        + Studio(nama: String, kap: int, tipe: String)
         + getNamaStudio(): String
     }
 
     class Movie {
-        - id: int
         - namaFilm: String
         - durasi: int
         - genre: String
-        + Movie(id: int, nama: String, durasi: int, genre: String)
+        + Movie(nama: String, durasi: int, genre: String)
         + getNamaFilm(): String
         + getGenre(): String
     }
