@@ -31,6 +31,8 @@ public class App {
             frame.setSize(800, 600);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+
+            
         });
     }
 }

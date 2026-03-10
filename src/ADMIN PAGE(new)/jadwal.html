@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Jadwal Tayang</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="jadwal.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>Bioskop Admin</h2>
+
+<ul>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="Manajemen_film.html">Manajemen Film</a></li>
+<li><a href="#">Jadwal Tayang</a></li>
+<li><a href="tiket.html">Pesanan Tiket</a></li>
+<li><a href="pengguna.html">Data Pengguna</a></li>
+<li><a href="laporan.html">Laporan</a></li>
+<li><a href="login.html">Logout</a></li>
+</ul>
+
+</div>
+
+<div class="main">
+
+<div class="navbar">
+<h3>Jadwal Tayang</h3>
+</div>
+
+
+<div class="jadwal-page">
+
+<!-- STATISTIC -->
+<div class="jadwal-stats">
+
+<div class="stat-card">
+<h4>Total Jadwal</h4>
+<p>24</p>
+</div>
+
+<div class="stat-card">
+<h4>Film Aktif</h4>
+<p>8</p>
+</div>
+
+<div class="stat-card">
+<h4>Studio Digunakan</h4>
+<p>3</p>
+</div>
+
+</div>
+
+
+<!-- TOOLBAR -->
+
+<div class="jadwal-toolbar">
+
+<input type="text" placeholder="Cari film..." class="search">
+
+<select>
+<option>Semua Studio</option>
+<option>Studio 1</option>
+<option>Studio 2</option>
+<option>Studio 3</option>
+</select>
+
+<button class="btn-add">+ Tambah Jadwal</button>
+
+</div>
+
+
+<!-- TABLE -->
+
+<div class="table-container">
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Film</th>
+<th>Studio</th>
+<th>Tanggal</th>
+<th>Jam</th>
+<th>Harga</th>
+<th>Aksi</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>1</td>
+<td class="film">Rasyid Love Story</td>
+<td>Studio 1</td>
+<td>12 Juni 2026</td>
+<td class="time">19:00</td>
+<td class="price">Rp50.000</td>
+<td>
+<button class="btn-edit">Edit</button>
+<button class="btn-delete">Hapus</button>
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
