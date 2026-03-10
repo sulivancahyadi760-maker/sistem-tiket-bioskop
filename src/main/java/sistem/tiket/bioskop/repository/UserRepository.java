@@ -11,11 +11,14 @@ public class UserRepository {
 
     public UserRepository() {
         users.add(new Admin("Raasyid", "Rasyid123", 9000));
-        users.add(new Customer("Rillah", "Rillah456", 1000));
-        users.add(new Customer("Ega", "Rillah456", 7000));
-        users.add(new Customer("KIKI", "Rillah456", 100123));
-        users.add(new Customer("Sulivan", "Sulivan124", 121322));
-        users.add(new Customer("Masrian", "Masrian121", 12112));
+        users.add(new Customer("Rillah", "Rillah456", 500000));
+        users.add(new Customer("Ega", "Rillah456", 700000));
+        users.add(new Customer("KIKI", "Rillah456", 800000));
+        users.add(new Customer("Sulivan", "Sulivan124", 500000));
+        users.add(new Customer("Masrian", "Masrian121", 500000));
+        users.add(new Admin("admin", "admin", 100000000));
+        users.add(new Customer("cust", "cust", 10000000));
+
     }
 
     public User findByUsername(String username) {

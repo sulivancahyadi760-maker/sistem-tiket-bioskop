@@ -3,39 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard - Bioskop</title>
+    <title>Admin Dashboard - CineMagic</title>
+    <link rel="stylesheet" href="../globals.css" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../script.js"></script>
   </head>
   <body>
+    <!-- sidebar -->
     <div class="sidebar">
-      <h2>Admin Page</h2>
+      <h2>Admin Panel</h2>
       <ul id="sidebar-menu">
         <li class="active" data-target="view-dashboard"><i class="fas fa-home"></i> Dashboard</li>
         <li data-target="view-manajemen-film"><i class="fas fa-film"></i> Manajemen Film</li>
-        <li data-target="view-jadwal"><i class="fas fa-film"></i> Jadwal Tayang</li>
+        <li data-target="view-jadwal"><i class="fas fa-calendar-alt"></i> Jadwal Tayang</li>
         <li data-target="view-tiket"><i class="fas fa-ticket-alt"></i> Pesanan Tiket</li>
         <li data-target="view-pengguna"><i class="fas fa-users"></i> Data Pengguna</li>
         <li data-target="view-laporan"><i class="fas fa-chart-bar"></i> Laporan</li>
         <li>
-          <a href="login.html" style="color: inherit; text-decoration: none"
+          <a href="#" id="logout-btn" style="color: inherit; text-decoration: none"
             ><i class="fas fa-sign-out-alt"></i> Logout</a
           >
         </li>
       </ul>
     </div>
 
-    <div class="main">
+    <!-- main content -->
+    <main class="main">
       <div class="navbar">
         <h3 id="navbar-title">Dashboard Admin</h3>
-        <span>Admin</span>
+        <span><i class="fas fa-user-circle"></i> Admin</span>
       </div>
 
+      <!-- Dashboard View -->
       <div id="view-dashboard" class="view-section active">
         <div class="stats-grid">
           <div class="stat-card">
-            <h4>Total Film</h4>
-            <p>-</p>
+            <h4>Total Film Aktif</h4>
+            <p id="stat-total-movies">-</p>
           </div>
           <div class="stat-card">
             <h4>Tiket Terjual</h4>
@@ -43,7 +49,7 @@
           </div>
           <div class="stat-card">
             <h4>Jadwal Berlangsung</h4>
-            <p>-</p>
+            <p id="stat-active-schedules">-</p>
           </div>
           <div class="stat-card">
             <h4>User Terdaftar</h4>
@@ -52,15 +58,14 @@
         </div>
 
         <div class="toolbar">
-          <input type="text" placeholder="Cari film..." class="search" />
-          <button class="btn-add">+ Tambah Film</button>
+          <h4 style="margin:0; font-weight: normal; font-size: 1.2rem; color: var(--text-main);">Film Terbaru</h4>
         </div>
 
         <div class="table-container">
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Judul Film</th>
                 <th>Genre</th>
                 <th>Durasi</th>
@@ -68,45 +73,23 @@
                 <th>Aksi</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td><button class="btn-edit">Edit</button> <button class="btn-delete">Hapus</button></td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td><button class="btn-edit">Edit</button> <button class="btn-delete">Hapus</button></td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td><button class="btn-edit">Edit</button> <button class="btn-delete">Hapus</button></td>
-              </tr>
+            <tbody id="tbody-dash-movies">
+              <!-- Injected dynamically -->
             </tbody>
           </table>
         </div>
       </div>
 
+      <!-- Manajemen Film View -->
       <div id="view-manajemen-film" class="view-section hidden">
         <div class="toolbar">
-          <button class="btn-add">+ Tambah Film</button>
+          <button class="btn-add-film">+ Tambah Film</button>
         </div>
         <div class="table-container">
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Poster</th>
                 <th>Judul</th>
                 <th>Genre</th>
@@ -115,53 +98,23 @@
                 <th>Aksi</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td><img src="poster.jpg" width="40" alt="poster" style="border-radius: 4px" /></td>
-                <td>Rasyid Love Story</td>
-                <td>Romance</td>
-                <td>120 min</td>
-                <td>Now Showing</td>
-                <td><button class="btn-edit">Edit</button> <button class="btn-delete">Hapus</button></td>
-              </tr>
+            <tbody id="tbody-manage-movies">
+              <!-- diisi langsung oleh javascript api java -->
             </tbody>
           </table>
         </div>
       </div>
 
+      <!-- Jadwal View -->
       <div id="view-jadwal" class="view-section hidden">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h4>Total Jadwal</h4>
-            <p>24</p>
-          </div>
-          <div class="stat-card">
-            <h4>Film Aktif</h4>
-            <p>8</p>
-          </div>
-          <div class="stat-card">
-            <h4>Studio Digunakan</h4>
-            <p>3</p>
-          </div>
-        </div>
-
         <div class="toolbar">
-          <input type="text" placeholder="Cari film..." class="search" />
-          <select>
-            <option>Semua Studio</option>
-            <option>Studio 1</option>
-            <option>Studio 2</option>
-            <option>Studio 3</option>
-          </select>
-          <button class="btn-add">+ Tambah Jadwal</button>
+          <button class="btn-add" onclick="alert('Fitur tambah jadwal dalam proses pengembangan')">+ Tambah Jadwal</button>
         </div>
-
         <div class="table-container">
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Film</th>
                 <th>Studio</th>
                 <th>Tanggal</th>
@@ -170,339 +123,67 @@
                 <th>Aksi</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td class="fw-600">Rasyid Love Story</td>
-                <td>Studio 1</td>
-                <td>12 Juni 2026</td>
-                <td class="text-blue fw-500">19:00</td>
-                <td class="text-green fw-600">Rp50.000</td>
-                <td><button class="btn-edit">Edit</button> <button class="btn-delete">Hapus</button></td>
-              </tr>
+            <tbody id="tbody-schedules">
+              <!-- ini di isi sendiri oleh data dari java -->
             </tbody>
           </table>
         </div>
       </div>
 
+      <!-- Tiket View -->
       <div id="view-tiket" class="view-section hidden">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h4>Total Pesanan</h4>
-            <p>120</p>
-          </div>
-          <div class="stat-card">
-            <h4>Tiket Terjual</h4>
-            <p>350</p>
-          </div>
-          <div class="stat-card">
-            <h4>Pendapatan</h4>
-            <p>Rp 17.500.000</p>
-          </div>
-        </div>
-
-        <div class="toolbar">
-          <input type="text" placeholder="Cari user / film..." class="search" />
-          <select>
-            <option>Semua Status</option>
-            <option>Lunas</option>
-            <option>Pending</option>
-            <option>Dibatalkan</option>
-          </select>
-        </div>
-
         <div class="table-container">
+          <h4 style="margin-bottom:15px;color:var(--text-muted)">Riwayat Pesanan (Mock)</h4>
           <table>
             <thead>
-              <tr>
-                <th>ID</th>
-                <th>User</th>
-                <th>Film</th>
-                <th>Kursi</th>
-                <th>Tanggal</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Aksi</th>
-              </tr>
+              <tr><th>ID</th><th>User</th><th>Film</th><th>Total</th><th>Aksi</th></tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>#1023</td>
-                <td>Andi</td>
-                <td>Rasyid Love Story</td>
-                <td>A5,A6</td>
-                <td>12 Juni 2026</td>
-                <td class="text-green fw-600">Rp100.000</td>
-                <td class="text-green fw-600">Lunas</td>
-                <td><button class="btn-detail">Detail</button></td>
-              </tr>
-              <tr>
-                <td>#1024</td>
-                <td>Budi</td>
-                <td>Avengers</td>
-                <td>B2</td>
-                <td>12 Juni 2026</td>
-                <td class="text-green fw-600">Rp50.000</td>
-                <td class="text-orange fw-600">Pending</td>
-                <td><button class="btn-detail">Detail</button></td>
-              </tr>
+            <tbody class="tbody-tickets">
+              <!-- ini di isi sendiri oleh data dari java -->
             </tbody>
           </table>
         </div>
       </div>
 
+      <!-- Pengguna View -->
       <div id="view-pengguna" class="view-section hidden">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h4>Total User</h4>
-            <p>-</p>
-          </div>
-          <div class="stat-card">
-            <h4>User Aktif</h4>
-            <p>-</p>
-          </div>
-          <div class="stat-card">
-            <h4>User Suspended</h4>
-            <p>-</p>
-          </div>
-        </div>
-
-        <div class="toolbar">
-          <input type="text" placeholder="Cari email / username..." class="search" />
-          <select>
-            <option>Semua Status</option>
-            <option>Active</option>
-            <option>Suspended</option>
-          </select>
-        </div>
-
         <div class="table-container">
+          <h4 style="margin-bottom:15px;color:var(--text-muted)">Pengguna Terdaftar (Mock)</h4>
           <table>
             <thead>
-              <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Saldo</th>
-                <th>Status</th>
-                <th>Aksi</th>
-              </tr>
+              <tr><th>ID</th><th>Username</th><th>Saldo</th><th>Status</th><th>Aksi</th></tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>andi</td>
-                <td>andi@email.com</td>
-                <td class="text-green fw-600">Rp 120.000</td>
-                <td class="text-green fw-600">Active</td>
-                <td><button class="btn-detail">Detail</button> <button class="btn-delete">Suspend</button></td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>budi</td>
-                <td>budi@email.com</td>
-                <td class="text-green fw-600">Rp 50.000</td>
-                <td class="text-red fw-600">Suspended</td>
-                <td><button class="btn-detail">Detail</button> <button class="btn-add">Activate</button></td>
-              </tr>
+            <tbody class="tbody-users">
+              <!-- ini di isi sendiri oleh data dari java -->
             </tbody>
           </table>
         </div>
       </div>
 
+      <!-- Laporan View -->
       <div id="view-laporan" class="view-section hidden">
-        <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr)">
-          <div class="stat-card">
-            <h4>Pendapatan hari ini</h4>
-            <p>-</p>
-          </div>
-          <div class="stat-card">
-            <h4>Tiket Terjual Hari Ini</h4>
-            <p>-</p>
-          </div>
-          <div class="stat-card">
-            <h4>Film Diputar</h4>
-            <p>-</p>
-          </div>
-          <div class="stat-card">
-            <h4>User Aktif</h4>
-            <p>-</p>
-          </div>
-        </div>
-
-        <div
-          class="chart-container"
-          style="
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            margin: 20px 0;
-          "
-        >
-          <h4>Grafik Penjualan Tiket</h4>
-          <div
-            class="fake-chart"
-            style="display: flex; align-items: flex-end; gap: 20px; height: 200px; margin-top: 20px"
-          >
-            <div
-              class="bar"
-              style="
-                height: 60%;
-                width: 40px;
-                background: #3498db;
-                color: white;
-                display: flex;
-                align-items: flex-end;
-                justify-content: center;
-                padding-bottom: 5px;
-                border-radius: 5px;
-                font-size: 12px;
-              "
-            >
-              Sen
-            </div>
-            <div
-              class="bar"
-              style="
-                height: 80%;
-                width: 40px;
-                background: #3498db;
-                color: white;
-                display: flex;
-                align-items: flex-end;
-                justify-content: center;
-                padding-bottom: 5px;
-                border-radius: 5px;
-                font-size: 12px;
-              "
-            >
-              Sel
-            </div>
-            <div
-              class="bar"
-              style="
-                height: 50%;
-                width: 40px;
-                background: #3498db;
-                color: white;
-                display: flex;
-                align-items: flex-end;
-                justify-content: center;
-                padding-bottom: 5px;
-                border-radius: 5px;
-                font-size: 12px;
-              "
-            >
-              Rab
-            </div>
-            <div
-              class="bar"
-              style="
-                height: 90%;
-                width: 40px;
-                background: #3498db;
-                color: white;
-                display: flex;
-                align-items: flex-end;
-                justify-content: center;
-                padding-bottom: 5px;
-                border-radius: 5px;
-                font-size: 12px;
-              "
-            >
-              Kam
-            </div>
-            <div
-              class="bar"
-              style="
-                height: 70%;
-                width: 40px;
-                background: #3498db;
-                color: white;
-                display: flex;
-                align-items: flex-end;
-                justify-content: center;
-                padding-bottom: 5px;
-                border-radius: 5px;
-                font-size: 12px;
-              "
-            >
-              Jum
-            </div>
-            <div
-              class="bar"
-              style="
-                height: 40%;
-                width: 40px;
-                background: #3498db;
-                color: white;
-                display: flex;
-                align-items: flex-end;
-                justify-content: center;
-                padding-bottom: 5px;
-                border-radius: 5px;
-                font-size: 12px;
-              "
-            >
-              Sab
-            </div>
-            <div
-              class="bar"
-              style="
-                height: 85%;
-                width: 40px;
-                background: #3498db;
-                color: white;
-                display: flex;
-                align-items: flex-end;
-                justify-content: center;
-                padding-bottom: 5px;
-                border-radius: 5px;
-                font-size: 12px;
-              "
-            >
-              Min
-            </div>
+        <div class="chart-container" style="background:var(--bg-card); padding:20px; border-radius:10px; border:1px solid var(--border-color); margin-bottom: 20px;">
+          <h4>Grafik Penjualan Tiket (Minggu Ini)</h4>
+          <div style="height: 300px; margin-top: 20px">
+            <canvas id="salesChart"></canvas>
           </div>
         </div>
 
         <div class="table-container">
-          <h4>Film Terlaris Minggu Ini</h4>
-          <table style="margin-top: 10px">
+          <h4 style="margin-bottom:15px;color:var(--text-muted)">Film Terlaris Minggu Ini (Mock)</h4>
+          <table>
             <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Film</th>
-                <th>Tiket Terjual</th>
-                <th>Pendapatan</th>
-              </tr>
+              <tr><th>Rank</th><th>Film</th><th>Tiket Terjual</th><th>Pendapatan</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Rasyid Love Story</td>
-                <td>350</td>
-                <td class="text-green fw-600">Rp 17.500.000</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Avengers</td>
-                <td>210</td>
-                <td class="text-green fw-600">Rp 10.500.000</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Interstellar</td>
-                <td>140</td>
-                <td class="text-green fw-600">Rp 7.000.000</td>
-              </tr>
+              <tr><td>1</td><td>Rasyid Love Story</td><td>350</td><td class="text-green fw-600">Rp 17.500.000</td></tr>
+              <tr><td>2</td><td>Avengers</td><td>210</td><td class="text-green fw-600">Rp 10.500.000</td></tr>
             </tbody>
           </table>
         </div>
       </div>
-    </div>
 
+    </main>
     <script src="script.js"></script>
   </body>
 </html>

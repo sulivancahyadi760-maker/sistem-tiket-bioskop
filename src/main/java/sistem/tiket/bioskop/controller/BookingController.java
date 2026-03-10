@@ -34,11 +34,11 @@ public class BookingController {
         String tipe = sch.getStudio().getTipeStudio().toLowerCase();
 
         if (tipe.equals("reguler")) {
-            harga = 35000;
+            harga = 45000;
         } else if (tipe.equals("premium") || tipe.equals("imax")) {
-            harga = 50000;
+            harga = 75000;
         } else if (tipe.equals("vip")) {
-            harga = 100000;
+            harga = 120000;
         }
 
         if (cust.getSaldo() < harga) {

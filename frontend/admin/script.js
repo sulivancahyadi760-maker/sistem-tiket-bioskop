@@ -1,20 +1,272 @@
+const API_BASE_URL = "http://localhost:8080/api";
+
 document.addEventListener("DOMContentLoaded", () => {
   const menuItems = document.querySelectorAll("#sidebar-menu li[data-target]");
   const views = document.querySelectorAll(".view-section");
   const navbarTitle = document.getElementById("navbar-title");
 
+  // Authentication Check
+  if (window.utils && window.utils.checkAuth) {
+    const user = window.utils.checkAuth();
+    if (!user || user.role !== "admin") {
+      // Redirect if not admin
+      window.location.href = "../login/login.html";
+      return;
+    }
+  }
+
+  // Handle Logout
+  const logoutBtn = document.getElementById("logout-btn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (window.utils && window.utils.logout) {
+        window.utils.logout();
+      }
+    });
+  }
+
+  // Sidebar navigation logic
   menuItems.forEach((item) => {
     item.addEventListener("click", () => {
       menuItems.forEach((m) => m.classList.remove("active"));
-
       item.classList.add("active");
 
       views.forEach((view) => view.classList.add("hidden"));
-
       const targetId = item.getAttribute("data-target");
-      document.getElementById(targetId).classList.remove("hidden");
+      const targetView = document.getElementById(targetId);
+      if (targetView) targetView.classList.remove("hidden");
 
       navbarTitle.textContent = item.textContent.trim();
+
+      // Fetch data based on view
+      if (targetId === "view-manajemen-film" || targetId === "view-dashboard") {
+        fetchMovies();
+      } else if (targetId === "view-jadwal") {
+        fetchSchedules();
+      }
     });
   });
+
+  fetchMovies();
+  fetchSchedules();
+  fetchTickets();
+
+  // Chart Rendering
+  const canvasElement = document.getElementById("salesChart");
+  if (canvasElement && typeof Chart !== "undefined") {
+    const ctx = canvasElement.getContext("2d");
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"],
+        datasets: [
+          {
+            label: "Tiket Terjual",
+            data: [60, 80, 50, 90, 70, 40, 85],
+            backgroundColor: "#e5a909",
+            borderRadius: 5,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { display: true, color: "#333" },
+            ticks: { color: "#a6a6a6" },
+          },
+          x: {
+            grid: { display: false },
+            ticks: { color: "#a6a6a6" },
+          },
+        },
+      },
+    });
+  }
 });
+
+// fetch data from API
+const fetchMovies = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/movies`);
+    const json = await res.json();
+    if (json.data) {
+      renderMovies(json.data);
+      updateDashboardStat("stat-total-movies", json.data.length);
+    }
+  } catch (error) {
+    console.error("Failed to fetch movies", error);
+  }
+};
+
+const fetchSchedules = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/schedules`);
+    const json = await res.json();
+    if (json.data) {
+      renderSchedules(json.data);
+      updateDashboardStat("stat-active-schedules", json.data.length);
+    }
+  } catch (error) {
+    console.error("Failed to fetch schedules", error);
+  }
+};
+
+const fetchTickets = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/users/${user.username}/bookings`);
+    const json = await res.json();
+    if (json.data) {
+      renderTickets(json.data);
+      updateDashboardStat("stat-total-tickets", json.data.length);
+    }
+  } catch (error) {
+    console.error("Failed to fetch tickets", error);
+  }
+};
+
+const fetchUsers = async () => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/users`);
+    const json = await res.json();
+    if (json.data) {
+      renderUsers(json.data);
+      updateDashboardStat("stat-total-users", json.data.length);
+    }
+  } catch (error) {
+    console.error("Failed to fetch users", error);
+  }
+};
+
+// render data ke DOM
+const renderMovies = (movies) => {
+  const tbodyManage = document.getElementById("tbody-manage-movies");
+  const tbodyDash = document.getElementById("tbody-dash-movies");
+
+  if (!tbodyManage && !tbodyDash) return;
+
+  let htmlManage = "";
+  let htmlDash = "";
+
+  movies.forEach((m, idx) => {
+    htmlManage += `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>-</td> <!-- Poster mock -->
+        <td>${m.namaFilm}</td>
+        <td>${m.genre}</td>
+        <td>${m.durasi} min</td>
+        <td>Aktif</td>
+        <td>
+          <button class="btn-delete" onclick="deleteMovie('${m.namaFilm}')">Hapus</button>
+        </td>
+      </tr>
+    `;
+
+    htmlDash += `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>${m.namaFilm}</td>
+        <td>${m.genre}</td>
+        <td>${m.durasi} min</td>
+        <td>Aktif</td>
+        <td><button class="btn-delete" onclick="deleteMovie('${m.namaFilm}')">Hapus</button></td>
+      </tr>
+    `;
+  });
+
+  if (tbodyManage) tbodyManage.innerHTML = htmlManage;
+  if (tbodyDash) tbodyDash.innerHTML = htmlDash;
+};
+
+const renderSchedules = (schedules) => {
+  const tbodySched = document.getElementById("tbody-schedules");
+  if (!tbodySched) return;
+
+  let html = "";
+  schedules.forEach((s, idx) => {
+    html += `
+      <tr>
+        <td>${idx + 1}</td>
+        <td class="fw-600 text-yellow">${s.movie ? s.movie.namaFilm : "-"}</td>
+        <td>${s.studio ? s.studio.namaStudio : "-"}</td>
+        <td>-</td> <!-- Asumsi tanggal tidak ada di response model untuk sekarang -->
+        <td class="text-blue fw-500">${s.jamTayang}</td>
+        <td class="text-green fw-600">Rp 50.000</td>
+        <td><button class="btn-delete">Hapus</button></td>
+      </tr>
+    `;
+  });
+
+  tbodySched.innerHTML = html;
+};
+
+const renderTickets = (tickets) => {
+  const tbodyTickets = document.getElementById("tbody-tickets");
+  if (!tbodyTickets) return;
+
+  let html = "";
+  tickets.forEach((t, idx) => {
+    html += `
+      <tr>
+        <td>${idx + 1}</td>
+        <td class="fw-600 text-yellow">${t.movie ? t.movie.namaFilm : "-"}</td>
+        <td>${t.studio ? t.studio.namaStudio : "-"}</td>
+        <td>-</td> <!-- Asumsi tanggal tidak ada di response model untuk sekarang -->
+        <td class="text-blue fw-500">${t.jamTayang}</td>
+        <td class="text-green fw-600">Rp 50.000</td>
+        <td><button class="btn-delete">Hapus</button></td>
+      </tr>
+    `;
+  });
+
+  tbodyTickets.innerHTML = html;
+};
+
+const renderUsers = (users) => {
+  const tbodyUsers = document.getElementById("tbody-users");
+  if (!tbodyUsers) return;
+
+  let html = "";
+  users.forEach((u, idx) => {
+    html += `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>${u.username}</td>
+        <td>${u.saldo}</td>
+        <td>${u.status}</td>
+        <td><button class="btn-delete">Suspend</button></td>
+      </tr>
+    `;
+  });
+
+  tbodyUsers.innerHTML = html;
+};
+
+
+
+const  deleteMovie = async (namaFilm) => {
+  if (confirm(`Hapus film ${namaFilm}?`)) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/movies/${namaFilm}`, { method: "DELETE" });
+      const json = await res.json();
+      if (res.ok) {
+        alert("Film dihapus!");
+        fetchMovies(); // Reload
+      } else {
+        alert("Gagal menghapus: " + json.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
+
+function updateDashboardStat(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}

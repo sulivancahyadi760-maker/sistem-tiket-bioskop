@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" href="../globals.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav>
+      <h2>CINEMA TICKETING</h2>
+      <div class="user-info">
+        <span>Welcome, <strong id="usernameDisplay"></strong></span>
+        <span class="saldo-badge">Saldo: Rp <span id="saldoDisplay">0</span></span>
+        <button id="logoutBtn" class="btn-sm">LOGOUT</button>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="tabs">
+        <button id="tabBrowse" class="tab-btn active" onclick="switchTab('browse')">Jadwal Tayang</button>
+        <button id="tabTickets" class="tab-btn" onclick="switchTab('tickets')">Tiket Saya</button>
+      </div>
+
+      <div id="viewBrowse">
+        <div id="scheduleGrid" class="grid-container"></div>
+      </div>
+
+      <div id="viewTickets" class="hidden">
+        <div id="ticketGrid" class="grid-container"></div>
+      </div>
+    </div>
+
+    <div id="bookingModal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <h3>Pesan Tiket</h3>
+        <div id="bookingInfo" class="booking-info-box"></div>
+        <form id="bookingForm">
+          <input type="hidden" id="bookMovie" />
+          <input type="hidden" id="bookStudio" />
+          <input type="hidden" id="bookTime" />
+          <input type="hidden" id="bookPrice" />
+          <input type="text" id="bookSeat" placeholder="Pilih Kursi (ex: A-1)" required />
+          <button type="submit">BAYAR SEKARANG</button>
+          <button type="button" class="btn-cancel" onclick="closeModal()">BATAL</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

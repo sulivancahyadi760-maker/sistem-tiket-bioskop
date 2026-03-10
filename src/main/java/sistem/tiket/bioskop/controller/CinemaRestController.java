@@ -69,14 +69,19 @@ public class CinemaRestController {
         public String seat;
     }
 
-    // DTO khusus untuk Response agar password tidak bocor
     public static class UserResponseDTO {
         public String username;
         public String role;
+        public int saldo;
 
         public UserResponseDTO(User user) {
             this.username = user.getUsername();
             this.role = user.getRole();
+            if (user instanceof Customer) {
+                this.saldo = ((Customer) user).getSaldo();
+            } else {
+                this.saldo = 0;
+            }
         }
     }
 
@@ -187,7 +192,7 @@ public class CinemaRestController {
             return buildResponse(HttpStatus.CREATED, "Tiket berhasil dipesan", null);
         }
 
-        // Catatan: Ini masih general karena controller aslimu hanya mereturn boolean.
+        // Catatan: Ini masih general karena controller asli mereturn boolean.
         return buildResponse(HttpStatus.BAD_REQUEST, "Booking gagal. Saldo kurang atau kursi sudah terisi.", null);
     }
 
@@ -195,5 +200,20 @@ public class CinemaRestController {
     public ResponseEntity<?> getUserBookings(@PathVariable String username) {
         List<Tiket> tiketList = bookingController.getTiketByUsername(username);
         return buildResponse(HttpStatus.OK, "Berhasil mengambil riwayat tiket", tiketList);
+    }
+
+    // ================= USER ===============
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        return buildResponse(HttpStatus.OK, "Berhasil mengambil data user", userRepo.getAllUsers());
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<?> addUser(@RequestBody RegReq req) {
+        boolean success = authController.register(req.username, req.password, req.saldo, req.role);
+        if (success) {
+            return buildResponse(HttpStatus.CREATED, "Registrasi berhasil", null);
+        }
+        return buildResponse(HttpStatus.BAD_REQUEST, "Username sudah digunakan", null);
     }
 }
