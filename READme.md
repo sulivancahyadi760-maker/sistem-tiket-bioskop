@@ -1,5 +1,7 @@
 # Project Pemrogramn Komputer
 
+Project ini merupakan tugas dari mata kuliah Pemrograman Komputer yang mengintegrasikan konsep OOP pada Java.
+
 Dibuat oleh kelompok 3:
 1. Aqilah Rafif Masrian
 2. Duhairillah
@@ -10,54 +12,69 @@ Dibuat oleh kelompok 3:
 
 ---
 
-## Screenshoot UML
-![alt text](/assets/uml.png)
+## Stack yang kita gunakan
+
+- Language: Java, JavaScript
+- Framework: Spring Boot Rest API
+- Data Management: CSV (Read Scanner ke ArrayList)
+- UI: HTML, CSS
 
 ---
 
 ## Struktur Project
+
 ```
-src
-├───app
-│       App.java
-│       
-├───controller
-│       AuthController.java
-│       BookingController.java
-│       MovieController.java
-│       ScheduleController.java
-│       
-├───model
-│       Admin.java
-│       Customer.java
-│       Movie.java
-│       Schedule.java
-│       Studio.java
-│       Tiket.java
-│       User.java
+frontend/
+│   globals.css
+│   index.html
+│   script.js
 │
-├───repository
-│       MovieRepository.java
-│       ScheduleRepository.java
-│       TiketRepository.java
-│       UserRepository.java
+├───admin
+│       dashboard.html
+│       script.js
+│       styles.css
 │
-└───view
-    │   MainFrame.form
-    │   MainFrame.java
-    │
-    ├───admin
-    │       AdminPanel.form
-    │       AdminPanel.java
-    │
-    ├───components
-    ├───customer
-    │       BookingPanel.form
-    │       BookingPanel.java
-    │       CustomerPanel.form
-    │       CustomerPanel.java
-    │
-    └───login
-            LoginPanel.form
-            LoginPanel.java
+├───customer
+│       customer.html
+│       script.js
+│       styles.css
+│
+└───login
+        login.html
+        script.js
+        styles.css
 ```
+```
+src/
+├───main
+│   ├───java/sistem/tiket/bioskop
+│   │   ├───controller
+|   |   ├───data
+|   |   ├───model
+|   |   ├───repository
+|   |   └───BioskopApplication.java         #entry point
+|   |   
+│   └───resources
+│       ├───static
+│       └───templates
+└───test
+    └───java
+        └───sistem
+            └───tiket
+                └───bioskop
+```
+
+---
+
+## Screenshoot UML
+
+![alt text](/assets/uml.png)
+
+---
+
+## Showcase Project
+
+![alt text](/assets/cover_depan.png)
+![alt text](/assets/halaman_login.png)
+![alt text](/assets/dashboard.png)
+![alt text](/assets/customer_page.png)

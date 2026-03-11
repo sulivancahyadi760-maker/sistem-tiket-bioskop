@@ -1,7 +1,7 @@
 @startuml tiket
 skinparam classAttributeIconSize 0
 
-class Main {
+class BioskopApplication {
     + main(args: String[]): void
 }
 
@@ -23,7 +23,6 @@ package controller {
         + isSeatAvailable(schedule: Schedule, seat: String): boolean
         + pesanTiket(customer: Customer, schedule: Schedule, seat: String, harga: int): boolean
         + getTiketByUsername(username: String): List<Tiket>
-        + hitungKursiTersedia(sch: Schedule): integer
     }
 
     class ScheduleController {
@@ -32,6 +31,7 @@ package controller {
         + addSchedule(mv: Movie, std: Studio, jamTayang: String): boolean
         + getAllSchedules(): List<Schedule>
         + getAllStudios(): List<Studio>
+        + deleteSchedule(namaFilm: String, namaStudio, jamTayang: String): boolean
     }
 
     class MovieController {
@@ -40,8 +40,21 @@ package controller {
         + addFilm(namaFilm: String, durasi: int, genre: String): boolean
         + deleteFilm(namaFilm: String): boolean
         + filterByGenre(genre: String): List<Movie>
+        + getAllMovies(): List<Movie>
         + getMovieByName(name: String): Movie
     }
+
+    class CinemaRestController {
+        - controllers: [Auth, Movie, Schedule, Booking]
+        - repositories: [User, Movie, Schedule, Tiket]
+        --
+        + auth: login(), register()
+        + movies: getMovies(), addMovie(), deleteMovie()
+        + schedules: getSchedules(), addSchedule(), deleteSchedule()
+        + bookings: createBooking(), getUserBookings()
+        + users: getAllUsers(), deleteUser(), topUpSaldo()
+    }
+
 }
 
 package repository {
@@ -49,23 +62,8 @@ package repository {
         - users: List<User>
         + findByUsername(username: String): User
         + addUser(user: User): void
+        + deleteUser(username: String): boolean
         + getAllUsers(): List<User>
-    }
-
-    class TiketRepository {
-        - tikets: List<Tiket>
-        + addTiket(tiket: Tiket): void
-        + findTiket(dataTiket: String): Tiket
-        + getAllTiket(): List<Tiket>
-        + findByUsername(username: String): List<Tiket>
-    }
-
-    class ScheduleRepository {
-        - schedules: List<Schedule>
-        - studios: List<Studio>
-        + addSchedule(sch: Schedule): void
-        + getAllSchedule(): List<Schedule>
-        + getAllStudios(): List<Studio>
     }
 
     class MovieRepository {
@@ -75,80 +73,91 @@ package repository {
         + addFilm(mv: Movie): void
         + deleteFilm(mv: Movie): void
     }
+
+    class ScheduleRepository {
+        - schedules: List<Schedule>
+        - studios: List<Studio>
+        + ScheduleRepository(movieRepo)
+        + addSchedule(sch: Schedule): void
+        + deleteSchedule(sch: Schedule): void
+        + getAllSchedule(): List<Schedule>
+        + getAllStudios(): List<Studio>
+    }
+
+    class TiketRepository {
+        - tikets: List<Tiket>
+        + addTiket(tiket: Tiket): void
+        + findTiket(dataTiket: String): Tiket
+        + getAllTiket(): List<Tiket>
+        + findByUsername(username: String): List<Tiket>
+    }
 }
 
 package model {
     abstract class User {
-        - username: String
-        - password: String
-        - saldo: int
-        + getRole(): String
-        + getUsername(): String
-        + getPassword(): String
-        + getSaldo(): int
-        + setSaldo(saldo: int): void
+        - username: String {get}
+        - password: String {get}
+        - saldo: int {get, set}
+        + User(username, password, saldo)
+        + abstract getRole(): String
         + addSaldo(jml: int): void
     }
 
     class Admin {
-        + Admin(username: String, password: String, saldo: int)
+        + Admin(username, password, saldo)
         + getRole(): String
     }
 
     class Customer {
-        + Customer(username: String, password: String, saldo: int)
+        + Customer(username, password, saldo)
         + getRole(): String
     }
 
-    class Tiket {
-        - user: User
-        - jadwalFilm: Schedule
-        - seat: String
-        - harga: int
-        + Tiket(user: User, jadwalFilm: Schedule, seat: String, harga: int)
-        + getUser(): User
-        + getJadwalFilm(): Schedule
-        + getSeat(): String
-        + getHarga(): int
-    }
-
-    class Schedule {
-        - movie: Movie
-        - studio: Studio
-        - jamTayang: String
-        + Schedule( mv: Movie, std: Studio, jam: String)
-        + getMovie(): Movie
-        + getStudio(): Studio
-        + getJamTayang(): String
+    class Movie {
+        - namaFilm: String {get, set}
+        - durasi: int {get, set}
+        - genre: String {get, set}
+        + Movie(namaFilm, durasi, genre)
     }
 
     class Studio {
-        - namaStudio: String
-        - kapasitas: int
-        - tipeStudio: String
-        + Studio(nama: String, kap: int, tipe: String)
-        + getNamaStudio(): String
+        - namaStudio: String {get, set}
+        - kapasitas: int {get, set}
+        - tipeStudio: String {get, set}
+        + Studio(namaStudio, kapasitas, tipeStudio)
     }
 
-    class Movie {
-        - namaFilm: String
-        - durasi: int
-        - genre: String
-        + Movie(nama: String, durasi: int, genre: String)
-        + getNamaFilm(): String
-        + getGenre(): String
+    class Schedule {
+        - movie: Movie {get, set}
+        - studio: Studio {get, set}
+        - jamTayang: String {get, set}
+        + Schedule(movie, studio, jamTayang)
+        + getHarga(): int
+    }
+
+    class Tiket {
+        - user: User {get}
+        - jadwalFilm: Schedule {get}
+        - seat: String {get}
+        - harga: int {get}
+        + Tiket(user, jadwalFilm, seat, harga)
+        + printTiket(): void
     }
 }
 
-Main --> AuthController
-Main --> MovieController
-Main --> ScheduleController
-Main --> BookingController
+CinemaRestController <-- AuthController
+CinemaRestController <-- MovieController
+CinemaRestController <-- ScheduleController
+CinemaRestController <-- BookingController
+CinemaRestController <-- MovieRepository
+CinemaRestController <-- ScheduleRepository
+CinemaRestController <-- UserRepository
+CinemaRestController <-- TiketRepository
 
-AuthController --> UserRepository
-BookingController --> TiketRepository
-ScheduleController --> ScheduleRepository
-MovieController --> MovieRepository
+AuthController <-- UserRepository
+BookingController <-- TiketRepository
+ScheduleController <-- ScheduleRepository
+MovieController <-- MovieRepository
 
 UserRepository o-- User
 TiketRepository o-- Tiket
@@ -159,9 +168,10 @@ MovieRepository o-- Movie
 User <|-- Admin
 User <|-- Customer
 
-Tiket --> User
-Tiket --> Schedule
-Schedule --> Movie
-Schedule --> Studio
+Tiket <-- User
+Tiket <-- Schedule
+Schedule <-- Movie
+Schedule <-- Studio
+
 
 @enduml

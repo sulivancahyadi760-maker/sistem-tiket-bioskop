@@ -18,32 +18,16 @@ public class Tiket {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Schedule getJadwalFilm() {
         return jadwalFilm;
-    }
-
-    public void setJadwalFilm(Schedule jadwalFilm) {
-        this.jadwalFilm = jadwalFilm;
     }
 
     public String getSeat() {
         return seat;
     }
 
-    public void setSeat(String seat) {
-        this.seat = seat;
-    }
-
     public int getHarga() {
         return harga;
-    }
-
-    public void setHarga(int harga) {
-        this.harga = harga;
     }
 
     public void printTiket() {
