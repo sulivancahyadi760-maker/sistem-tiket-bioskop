@@ -67,7 +67,7 @@ public class AuthController {
     //fungsi untuk user topup
     public boolean topUp(int jml) {
         if (currentUser != null) {
-            currentUser.setSaldo(currentUser.getSaldo() + jml);
+            currentUser.addSaldo(jml);
             return true;
         }
         return false;

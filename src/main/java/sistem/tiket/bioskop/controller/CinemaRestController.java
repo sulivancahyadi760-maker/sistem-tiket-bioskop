@@ -29,7 +29,7 @@ public class CinemaRestController {
     public CinemaRestController() {
         this.userRepo = new UserRepository();
         this.movieRepo = new MovieRepository();
-        this.schRepo = new ScheduleRepository();
+        this.schRepo = new ScheduleRepository(this.movieRepo);
         this.tiketRepo = new TiketRepository();
 
         this.authController = new AuthController(userRepo);
@@ -70,6 +70,11 @@ public class CinemaRestController {
         public String seat;
     }
 
+    public static class TopUpReq {
+        public String username;
+        public int jumlah;
+    }
+
     public static class UserResponseDTO {
         public String username;
         public String role;
@@ -78,14 +83,15 @@ public class CinemaRestController {
         public UserResponseDTO(User user) {
             this.username = user.getUsername();
             this.role = user.getRole();
-            if (user instanceof Customer) {
-                this.saldo = ((Customer) user).getSaldo();
-            } else {
-                this.saldo = 0;
-            }
+            this.saldo = user.getSaldo();
         }
     }
 
+    /**
+     * DTO untuk mengirimkan data Tiket ke client.
+     * berisi tentang informasi tiket, seperti username, nama film, nama studio, jam
+     * tayang, seat, dan harga.
+     */
     public static class TiketDTO {
         public String username;
         public String namaFilm;
@@ -94,6 +100,11 @@ public class CinemaRestController {
         public String seat;
         public int harga;
 
+        /**
+         * konstruktor untuk membuat objek TiketDTO dari objek Tiket.
+         * 
+         * @param t objek Tiket yang akan di konversi menjadi objek TiketDTO.
+         */
         public TiketDTO(Tiket t) {
             this.username = t.getUser() != null ? t.getUser().getUsername() : "-";
             this.namaFilm = t.getJadwalFilm() != null && t.getJadwalFilm().getMovie() != null
@@ -118,11 +129,19 @@ public class CinemaRestController {
             this.movie = s.getMovie();
             this.studio = s.getStudio();
             this.jamTayang = s.getJamTayang();
-            this.harga = s.getHarga(); // Logic is now in the Model!
+            this.harga = s.getHarga();
         }
     }
 
-    // Helper untuk standarisasi response
+    /**
+     * membuat sebuah response entity dengan status, message, dan data.
+     * jika data tidak null, maka data akan dimasukkan ke dalam response.
+     * 
+     * @param status  status dari response
+     * @param message pesan dari response
+     * @param data    data yang akan dikirimkan
+     * @return response entity yang dibuat
+     */
     private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, String message, Object data) {
         Map<String, Object> response = new HashMap<>();
         response.put("message", message);
@@ -280,5 +299,21 @@ public class CinemaRestController {
             return buildResponse(HttpStatus.OK, "User berhasil dihapus", null);
         }
         return buildResponse(HttpStatus.NOT_FOUND, "User tidak ditemukan", null);
+    }
+
+    @PostMapping("/users/topup")
+    public ResponseEntity<?> topUpSaldo(@RequestBody TopUpReq req) {
+        User user = userRepo.findByUsername(req.username);
+
+        if (user == null) {
+            return buildResponse(HttpStatus.NOT_FOUND, "User tidak ditemukan", null);
+        }
+
+        if (req.jumlah <= 0) {
+            return buildResponse(HttpStatus.BAD_REQUEST, "Saldo harus lebih besar dari 0", null);
+        }
+
+        user.addSaldo(req.jumlah);
+        return buildResponse(HttpStatus.OK, "Top up berhasil. Saldo sekarang: " + user.getSaldo(), null);
     }
 }

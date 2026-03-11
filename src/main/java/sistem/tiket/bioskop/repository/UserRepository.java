@@ -22,12 +22,10 @@ public class UserRepository {
     }
 
     public User findByUsername(String username) {
-        for (User u : users) {
-            if (u.getUsername().equals(username)) {
-                return u;
-            }
-        }
-        return null; // user tidak ditemukan
+        return users.stream()
+                .filter(u -> u.getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
     }
 
     public void addUser(User user) {

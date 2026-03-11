@@ -30,7 +30,7 @@ public abstract class User {
     }
 
     public void addSaldo(int jml) {
-        if (jml < 0) {
+        if (jml > 0) {
             this.saldo += jml;
         }
     }

@@ -12,7 +12,7 @@
   </head>
   <body>
     <!-- sidebar -->
-    <div class="sidebar">
+    <aside class="sidebar">
       <h2>Admin Panel</h2>
       <ul id="sidebar-menu">
         <li class="active" data-target="view-dashboard"><i class="fas fa-home"></i> Dashboard</li>
@@ -27,7 +27,7 @@
           >
         </li>
       </ul>
-    </div>
+    </aside>
 
     <!-- main content -->
     <main class="main">
@@ -37,7 +37,7 @@
       </div>
 
       <!-- Dashboard View -->
-      <div id="view-dashboard" class="view-section active">
+      <section id="view-dashboard" class="view-section active">
         <div class="stats-grid">
           <div class="stat-card">
             <h4>Total Film Aktif</h4>
@@ -58,7 +58,7 @@
         </div>
 
         <div class="toolbar">
-          <h4 style="margin:0; font-weight: normal; font-size: 1.2rem; color: var(--text-main);">Film Terbaru</h4>
+          <h4 style="margin: 0; font-weight: normal; font-size: 1.2rem; color: var(--text-main)">Film Terbaru</h4>
         </div>
 
         <div class="table-container">
@@ -78,10 +78,10 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
       <!-- Manajemen Film View -->
-      <div id="view-manajemen-film" class="view-section hidden">
+      <section id="view-manajemen-film" class="view-section hidden">
         <div class="toolbar">
           <button class="btn-add-film" onclick="openMovieModal()">+ Tambah Film</button>
         </div>
@@ -103,10 +103,10 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
       <!-- Jadwal View -->
-      <div id="view-jadwal" class="view-section hidden">
+      <section id="view-jadwal" class="view-section hidden">
         <div class="toolbar">
           <button class="btn-add" onclick="openScheduleModal()">+ Tambah Jadwal</button>
         </div>
@@ -128,41 +128,62 @@
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
       <!-- Tiket View -->
-      <div id="view-tiket" class="view-section hidden">
+      <section id="view-tiket" class="view-section hidden">
         <div class="table-container">
-          <h4 style="margin-bottom:15px;color:var(--text-muted)">Riwayat Pesanan (Mock)</h4>
+          <h4 style="margin-bottom: 15px; color: var(--text-muted)">Riwayat Pesanan (Mock)</h4>
           <table>
             <thead>
-              <tr><th>ID</th><th>User</th><th>Film</th><th>Total</th><th>Aksi</th></tr>
+              <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Film</th>
+                <th>Total</th>
+                <th>Aksi</th>
+              </tr>
             </thead>
             <tbody class="tbody-tickets">
               <!-- ini di isi sendiri oleh data dari java -->
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
       <!-- Pengguna View -->
-      <div id="view-pengguna" class="view-section hidden">
+      <section id="view-pengguna" class="view-section hidden">
         <div class="table-container">
-          <h4 style="margin-bottom:15px;color:var(--text-muted)">Pengguna Terdaftar (Mock)</h4>
+          <h4 style="margin-bottom: 15px; color: var(--text-muted)">Pengguna Terdaftar (Mock)</h4>
           <table>
             <thead>
-              <tr><th>ID</th><th>Username</th><th>Saldo</th><th>Status</th><th>Aksi</th></tr>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Saldo</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
             </thead>
             <tbody class="tbody-users">
               <!-- ini di isi sendiri oleh data dari java -->
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
       <!-- Laporan View -->
-      <div id="view-laporan" class="view-section hidden">
-        <div class="chart-container" style="background:var(--bg-card); padding:20px; border-radius:10px; border:1px solid var(--border-color); margin-bottom: 20px;">
+      <section id="view-laporan" class="view-section hidden">
+        <div
+          class="chart-container"
+          style="
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+          "
+        >
           <h4>Grafik Penjualan Tiket (Minggu Ini)</h4>
           <div style="height: 300px; margin-top: 20px">
             <canvas id="salesChart"></canvas>
@@ -170,21 +191,36 @@
         </div>
 
         <div class="table-container">
-          <h4 style="margin-bottom:15px;color:var(--text-muted)">Film Terlaris Minggu Ini (Mock)</h4>
+          <h4 style="margin-bottom: 15px; color: var(--text-muted)">Film Terlaris Minggu Ini (Mock)</h4>
           <table>
             <thead>
-              <tr><th>Rank</th><th>Film</th><th>Tiket Terjual</th><th>Pendapatan</th></tr>
+              <tr>
+                <th>Rank</th>
+                <th>Film</th>
+                <th>Tiket Terjual</th>
+                <th>Pendapatan</th>
+              </tr>
             </thead>
             <tbody>
-              <tr><td>1</td><td>Rasyid Love Story</td><td>350</td><td class="text-green fw-600">Rp 17.500.000</td></tr>
-              <tr><td>2</td><td>Avengers</td><td>210</td><td class="text-green fw-600">Rp 10.500.000</td></tr>
+              <tr>
+                <td>1</td>
+                <td>Rasyid Love Story</td>
+                <td>350</td>
+                <td class="text-green fw-600">Rp 17.500.000</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Avengers</td>
+                <td>210</td>
+                <td class="text-green fw-600">Rp 10.500.000</td>
+              </tr>
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
       <!-- Add Movie Modal -->
-      <div id="movieModal" class="modal hidden">
+      <section id="movieModal" class="modal hidden">
         <div class="modal-content">
           <h3>Tambah Film Baru</h3>
           <form id="formAddMovie">
@@ -202,14 +238,20 @@
             </div>
             <div class="modal-actions">
               <button type="button" class="btn-secondary" onclick="closeMovieModal()">Batal</button>
-              <button type="submit" class="btn-primary" style="background:var(--cinematic-yellow); color:#000; font-weight:bold;">Simpan</button>
+              <button
+                type="submit"
+                class="btn-primary"
+                style="background: var(--cinematic-yellow); color: #000; font-weight: bold"
+              >
+                Simpan
+              </button>
             </div>
           </form>
         </div>
-      </div>
+      </section>
 
       <!-- Add Schedule Modal -->
-      <div id="scheduleModal" class="modal hidden">
+      <section id="scheduleModal" class="modal hidden">
         <div class="modal-content">
           <h3>Tambah Jadwal Tayang</h3>
           <form id="formAddSchedule">
@@ -231,12 +273,17 @@
             </div>
             <div class="modal-actions">
               <button type="button" class="btn-secondary" onclick="closeScheduleModal()">Batal</button>
-              <button type="submit" class="btn-primary" style="background:var(--cinematic-yellow); color:#000; font-weight:bold;">Simpan</button>
+              <button
+                type="submit"
+                class="btn-primary"
+                style="background: var(--cinematic-yellow); color: #000; font-weight: bold"
+              >
+                Simpan
+              </button>
             </div>
           </form>
         </div>
-      </div>
-
+      </section>
     </main>
     <script src="script.js"></script>
   </body>
