@@ -68,6 +68,7 @@ public class AuthController {
     public boolean topUp(int jml) {
         if (currentUser != null) {
             currentUser.addSaldo(jml);
+            userRepo.saveDataToCSV();
             return true;
         }
         return false;

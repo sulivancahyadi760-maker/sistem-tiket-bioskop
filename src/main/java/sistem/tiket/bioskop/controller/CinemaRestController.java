@@ -256,6 +256,7 @@ public class CinemaRestController {
         boolean success = bookingController.pesanTiket((Customer) user, sch, req.seat);
 
         if (success) {
+            userRepo.saveDataToCSV();
             return buildResponse(HttpStatus.CREATED, "Tiket berhasil dipesan", null);
         }
 
@@ -314,6 +315,7 @@ public class CinemaRestController {
         }
 
         user.addSaldo(req.jumlah);
+        userRepo.saveDataToCSV();
         return buildResponse(HttpStatus.OK, "Top up berhasil. Saldo sekarang: " + user.getSaldo(), null);
     }
 }
