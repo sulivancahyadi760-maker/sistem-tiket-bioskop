@@ -122,18 +122,78 @@ const loadTickets = async () => {
   }
 };
 
-function openModal(movie, studio, time, price) {
+async function openModal(movie, studio, time, price) {
   document.getElementById("bookMovie").value = movie;
   document.getElementById("bookStudio").value = studio;
   document.getElementById("bookTime").value = time;
   document.getElementById("bookPrice").value = price;
+  document.getElementById("bookSeat").value = "";
+  document.getElementById("selectedSeatLabel").textContent = "NONE";
+  
+  // Perbaiki warna kuning, sebelumnya --cinematic-yellow yang tidak defined
   document.getElementById("bookingInfo").innerHTML = `
         <p><strong>Film:</strong> ${movie}</p>
         <p><strong>Studio:</strong> ${studio} | <strong>Jam:</strong> ${time}</p>
-        <p style="color: var(--cinematic-yellow); font-size: 1.2rem; margin-top: 10px;"><strong>Harga: Rp ${price.toLocaleString(
+        <p style="color: var(--accent-neon); font-size: 1.2rem; margin-top: 10px;"><strong>Harga: Rp ${price.toLocaleString(
           "id-ID"
         )}</strong></p>`;
+  
   document.getElementById("bookingModal").classList.remove("hidden");
+  document.getElementById("seatGrid").innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--accent-neon); font-family: var(--font-display);">LOADING SEATING PLAN...</p>';
+
+  try {
+    const res = await fetch(`${API_URL}/tickets`);
+    const result = await res.json();
+    const bookedSeats = (result.data || [])
+      .filter(t => t.namaFilm === movie && t.namaStudio === studio && t.jamTayang === time)
+      .map(t => t.seat.toUpperCase());
+
+    generateSeatGrid(bookedSeats);
+  } catch (error) {
+    document.getElementById("seatGrid").innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #ff3333;">ERROR LOADING SEATS.</p>';
+  }
+}
+
+function generateSeatGrid(bookedSeats) {
+  const rows = ['A', 'B', 'C', 'D', 'E'];
+  const cols = 8;
+  const grid = document.getElementById("seatGrid");
+  grid.innerHTML = "";
+
+  rows.forEach(r => {
+    for (let c = 1; c <= cols; c++) {
+      const seatId = `${r}-${c}`;
+      const isBooked = bookedSeats.includes(seatId);
+      
+      const seatEl = document.createElement("div");
+      seatEl.className = `seat ${isBooked ? 'seat-booked' : 'seat-available'}`;
+      seatEl.textContent = seatId;
+      
+      if (!isBooked) {
+        seatEl.onclick = () => selectSeat(seatId, seatEl);
+      }
+      grid.appendChild(seatEl);
+    }
+  });
+}
+
+function selectSeat(seatId, seatEl) {
+  document.querySelectorAll(".seat-selected").forEach(el => {
+    if(el !== seatEl) el.classList.remove("seat-selected");
+  });
+  
+  seatEl.classList.toggle("seat-selected");
+  
+  const input = document.getElementById("bookSeat");
+  const label = document.getElementById("selectedSeatLabel");
+  
+  if (seatEl.classList.contains("seat-selected")) {
+    input.value = seatId;
+    label.textContent = seatId;
+  } else {
+    input.value = "";
+    label.textContent = "NONE";
+  }
 }
 
 function closeModal() {
@@ -143,6 +203,13 @@ function closeModal() {
 // form submit pesan tiket
 document.getElementById("bookingForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+  
+  const seatInput = document.getElementById("bookSeat").value;
+  if (!seatInput) {
+    alert("Silakan pilih tempat duduk terlebih dahulu.");
+    return;
+  }
+  
   const price = parseInt(document.getElementById("bookPrice").value);
   if (user.saldo < price) {
     alert("Saldo tidak mencukupi!");
