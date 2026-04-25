@@ -31,6 +31,7 @@ public class CinemaRestController {
         this.movieRepo = new MovieRepository();
         this.schRepo = new ScheduleRepository(this.movieRepo);
         this.tiketRepo = new TiketRepository();
+        this.tiketRepo.loadDataCSV(userRepo, schRepo);
 
         this.authController = new AuthController(userRepo);
         this.movieController = new MovieController(movieRepo);

@@ -44,6 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
         fetchMovies();
       } else if (targetId === "view-jadwal") {
         fetchSchedules();
+      } else if (targetId === "view-tiket") {
+        fetchTickets();
+      } else if (targetId === "view-pengguna") {
+        fetchUsers();
       }
     });
   });
@@ -51,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchMovies();
   fetchSchedules();
   fetchTickets();
+  fetchUsers();
 
   // Chart Rendering
   const canvasElement = document.getElementById("salesChart");

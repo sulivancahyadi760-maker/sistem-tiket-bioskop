@@ -206,13 +206,15 @@ document.getElementById("bookingForm").addEventListener("submit", async (e) => {
   
   const seatInput = document.getElementById("bookSeat").value;
   if (!seatInput) {
-    alert("Silakan pilih tempat duduk terlebih dahulu.");
+    if(window.utils) window.utils.showAlert("TARGET SEAT REQUIRED.", "error");
+    else alert("Silakan pilih tempat duduk terlebih dahulu.");
     return;
   }
   
   const price = parseInt(document.getElementById("bookPrice").value);
   if (user.saldo < price) {
-    alert("Saldo tidak mencukupi!");
+    if(window.utils) window.utils.showAlert("INSUFFICIENT FUNDS.", "error");
+    else alert("Saldo tidak mencukupi!");
     return;
   }
 
@@ -236,11 +238,17 @@ document.getElementById("bookingForm").addEventListener("submit", async (e) => {
       localStorage.setItem("user", JSON.stringify(user));
       updateHeader();
       closeModal();
-      alert("Tiket berhasil dipesan!");
+      if(window.utils) window.utils.showAlert("TRANSACTION COMPLETED.", "success");
+      else alert("Tiket berhasil dipesan!");
       switchTab("tickets");
+    } else {
+      const errJson = await res.json();
+      if(window.utils) window.utils.showAlert(errJson.message || "FAILED TO ACQUIRE TICKET.", "error");
+      else alert(errJson.message || "Gagal memesan.");
     }
   } catch (error) {
-    alert("Terjadi kesalahan sistem.");
+    if(window.utils) window.utils.showAlert("CRITICAL SYSTEM FAILURE.", "error");
+    else alert("Terjadi kesalahan sistem.");
   }
 });
 
