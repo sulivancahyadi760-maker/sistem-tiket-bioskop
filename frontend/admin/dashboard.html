@@ -290,6 +290,28 @@
     </div>
   </section>
 
+  <!-- Top-Up Modal -->
+  <section id="topupModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 class="text-huge" style="font-size: 2.5rem; margin-bottom: 20px;">FUNDS TRANSFER</h3>
+      <form id="formTopUp">
+        <input type="hidden" id="topupUsername" />
+        <div class="form-group">
+          <label>Target Identity</label>
+          <input type="text" id="topupTarget" readonly style="background:var(--bg-card); opacity:0.7; color: var(--text-muted);" />
+        </div>
+        <div class="form-group">
+          <label>Amount (Rp)</label>
+          <input type="number" id="topupAmount" min="10000" step="10000" placeholder="Rp 50000" required />
+        </div>
+        <div style="display: flex; gap: 15px; margin-top: 30px;">
+          <button type="submit" class="btn" style="flex: 2;">EXECUTE_TRANSFER</button>
+          <button type="button" class="btn btn-outline" onclick="closeTopupModal()" style="flex: 1; border-color: var(--text-muted); color: var(--text-muted);">CANCEL</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <script src="../script.js"></script>
   <script src="script.js"></script>
 </body>

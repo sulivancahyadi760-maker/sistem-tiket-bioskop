@@ -242,7 +242,10 @@ const renderUsers = (users) => {
         <td>${u.username} <span class="badge" style="font-size:0.75rem; margin-left:5px; background:var(--cinematic-yellow); color:#000;">${u.role}</span></td>
         <td class="text-green">Rp ${u.saldo ? u.saldo.toLocaleString('id-ID') : 0}</td>
         <td>Aktif</td>
-        <td><button class="btn-delete" onclick="deleteUser('${u.username}')">Suspend</button></td>
+        <td style="display: flex; gap: 10px;">
+          <button class="btn" style="padding: 5px 15px; font-size: 0.8rem; background: var(--bg-card); border-color: var(--accent-neon); color: var(--accent-neon);" onclick="openTopupModal('${u.username}')">Top-Up</button>
+          <button class="btn-delete" onclick="deleteUser('${u.username}')">Suspend</button>
+        </td>
       </tr>
     `;
   });
@@ -395,12 +398,59 @@ if(formAddSchedule) {
       });
       const json = await res.json();
       if(res.ok) {
-        alert("Jadwal berhasil ditambahkan!");
+        if(window.utils) window.utils.showAlert("JADWAL ALLOCATED.", "success");
+        else alert("Jadwal berhasil ditambahkan!");
         closeScheduleModal();
         fetchSchedules();
       } else {
-        alert(json.message);
+        if(window.utils) window.utils.showAlert(json.message || "ALLOCATION FAILED.", "error");
+        else alert(json.message);
       }
     } catch(e) { console.error(e); }
+  });
+}
+
+// Top Up Modal hooks
+function openTopupModal(username) {
+  document.getElementById("topupUsername").value = username;
+  document.getElementById("topupTarget").value = username;
+  document.getElementById("topupAmount").value = "";
+  document.getElementById("topupModal").classList.remove("hidden");
+}
+
+function closeTopupModal() {
+  document.getElementById("topupModal").classList.add("hidden");
+  const frm = document.getElementById("formTopUp");
+  if(frm) frm.reset();
+}
+
+const formTopUp = document.getElementById("formTopUp");
+if (formTopUp) {
+  formTopUp.addEventListener("submit", async(e) => {
+    e.preventDefault();
+    const payload = {
+      username: document.getElementById("topupUsername").value,
+      jumlah: parseInt(document.getElementById("topupAmount").value)
+    };
+    try {
+      const res = await fetch(`${API_BASE_URL}/users/topup`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload)
+      });
+      const json = await res.json();
+      if(res.ok) {
+        if(window.utils) window.utils.showAlert(`FUNDS TRANSFERRED TO ${payload.username}`, "success");
+        else alert("Topup sukses!");
+        closeTopupModal();
+        fetchUsers();
+      } else {
+        if(window.utils) window.utils.showAlert(json.message || "TRANSFER REJECTED.", "error");
+        else alert("Gagal Topup");
+      }
+    } catch(err) {
+       if(window.utils) window.utils.showAlert("NETWORK ERROR.", "error");
+       console.error(err);
+    }
   });
 }

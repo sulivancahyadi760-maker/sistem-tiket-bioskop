@@ -45,12 +45,12 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
         errorMsg.className = "error text-danger";
       }
     } else {
-      const saldo = document.getElementById("saldo").value;
+      const saldo = 0; 
       const role = document.getElementById("role").value;
       const res = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, saldo: parseInt(saldo), role }),
+        body: JSON.stringify({ username, password, saldo: saldo, role }),
       });
       const result = await res.json();
 
