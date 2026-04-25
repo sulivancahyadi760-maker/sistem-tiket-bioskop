@@ -1,72 +1,75 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - CineMagic</title>
-    <link rel="stylesheet" href="../globals.css" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="split-layout">
-      <aside class="auth-side">
-        <nav class="brand">ABSOLUTE<span class="text-yellow">CINEMA</span></nav>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - ABSOLUTE CINEMA</title>
+  <link rel="stylesheet" href="../globals.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-noise"></div>
 
-        <section class="auth-container">
-          <header class="auth-header">
-            <h1 id="authTitle">Welcome Back</h1>
-            <p id="authSubtitle">Enter your username below to login to your account</p>
-          </header>
+  <div class="split-layout">
+    <aside class="auth-side">
+      <nav class="brand">ABSOLUTE<span class="text-neon">CINEMA.</span></nav>
 
-          <form id="authForm" class="modern-form">
-            <div class="form-group">
-              <label>Username</label>
-              <input type="text" id="username" placeholder="username" required />
-            </div>
+      <section class="auth-container">
+        <header class="auth-header">
+          <h1 id="authTitle" class="text-huge reveal-1" style="font-size: 4.5rem; letter-spacing: -2px;">IDENTIFY</h1>
+          <p id="authSubtitle" class="reveal-2" style="font-family: var(--font-body); color: var(--text-muted); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;">Enter your credentials to access the void.</p>
+        </header>
 
-            <div class="form-group">
-              <div class="label-row">
-                <label>Password</label>
-                <a href="#" class="forgot-link">Forgot your password?</a>
-              </div>
-              <input type="password" id="password" placeholder="• • • • • • • •" required />
-            </div>
-
-            <div id="registerFields" class="hidden">
-              <div class="form-group">
-                <label>Initial Balance (Rp)</label>
-                <input type="number" id="saldo" value="100000" />
-              </div>
-
-              <div class="form-group">
-                <label>Account Role</label>
-                <select id="role">
-                  <option value="customer">Customer</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </div>
-            </div>
-
-            <button type="submit" id="submitBtn" class="btn-primary">Login</button>
-          </form>
-
-          <div id="errorMsg" class="error-container"></div>
-
-          <div class="auth-footer">
-            <p>
-              <span id="toggleText">Don't have an account?</span>
-              <a href="#" id="toggleAuth">Sign up</a>
-            </p>
+        <form id="authForm" class="modern-form reveal-3">
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="username" placeholder="Who are you?" required />
           </div>
-        </section>
-      </aside>
 
-      <aside class="banner-side">
-        <div class="banner-overlay">
-          <h2>Experience Cinematic Excellence</h2>
+          <div class="form-group">
+            <div class="label-row">
+              <label>Passcode</label>
+            </div>
+            <input type="password" id="password" placeholder="[REDACTED]" required />
+          </div>
+
+          <div id="registerFields" class="hidden" style="margin-top: 10px;">
+            <div class="form-group">
+              <label>Initial Balance (Rp)</label>
+              <input type="number" id="saldo" value="100000" />
+            </div>
+
+            <div class="form-group">
+              <label>Account Role</label>
+              <select id="role">
+                <option value="customer">Aesthetic Patron (Customer)</option>
+                <option value="admin">System Overlord (Admin)</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn" style="width: 100%; margin-top: 2rem;">AUTHENTICATE</button>
+        </form>
+
+        <div id="errorMsg" class="error-container"></div>
+
+        <div class="auth-footer reveal-3" style="animation-delay: 0.2s;">
+          <p>
+            <span id="toggleText" style="color: var(--text-muted);">New to the void?</span>
+            <a href="#" id="toggleAuth" style="color: var(--accent-neon); text-decoration: none; text-transform: uppercase; font-family: var(--font-display); letter-spacing: 1px; margin-left: 10px;">Initiate</a>
+          </p>
         </div>
-      </aside>
-    </div>
-    <script src="script.js"></script>
-  </body>
+      </section>
+    </aside>
+
+    <aside class="banner-side">
+      <div class="banner-noise"></div>
+      <div class="banner-content">
+        <h2 class="text-huge" style="font-size: 6rem; line-height: 0.85; margin: 0;">NO<br>DISTRACTIONS.<br><span class="text-neon" style="color: transparent; -webkit-text-stroke: 2px var(--accent-neon);">PURE</span><br>CINEMA.</h2>
+      </div>
+    </aside>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
 </html>

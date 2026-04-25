@@ -1,290 +1,296 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard - CineMagic</title>
-    <link rel="stylesheet" href="../globals.css" />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../script.js"></script>
-  </head>
-  <body>
-    <!-- sidebar -->
+<head>
+  <meta charset="UTF-8">
+  <title>Admin System - ABSOLUTE CINEMA</title>
+  <link rel="stylesheet" href="../globals.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="bg-noise"></div>
+
+  <div class="admin-layout">
     <aside class="sidebar">
-      <h2>Admin Panel</h2>
-      <ul id="sidebar-menu">
-        <li class="active" data-target="view-dashboard"><i class="fas fa-home"></i> Dashboard</li>
-        <li data-target="view-manajemen-film"><i class="fas fa-film"></i> Manajemen Film</li>
-        <li data-target="view-jadwal"><i class="fas fa-calendar-alt"></i> Jadwal Tayang</li>
-        <li data-target="view-tiket"><i class="fas fa-ticket-alt"></i> Pesanan Tiket</li>
-        <li data-target="view-pengguna"><i class="fas fa-users"></i> Data Pengguna</li>
-        <li data-target="view-laporan"><i class="fas fa-chart-bar"></i> Laporan</li>
-        <li>
-          <a href="#" id="logout-btn" style="color: inherit; text-decoration: none"
-            ><i class="fas fa-sign-out-alt"></i> Logout</a
-          >
+      <div class="sidebar-brand">
+        <h2 class="text-neon" style="margin: 0; font-size: 2rem;">SYS.ADMIN</h2>
+        <span style="font-size: 0.6rem; letter-spacing: 2px;">CineMagic Control</span>
+      </div>
+      
+      <ul id="sidebar-menu" class="industrial-menu">
+        <li class="active" data-target="view-dashboard">
+          <span class="menu-icon"><i class="fas fa-terminal"></i></span> OVERVIEW
+        </li>
+        <li data-target="view-manajemen-film">
+          <span class="menu-icon"><i class="fas fa-film"></i></span> MOVIES DB
+        </li>
+        <li data-target="view-jadwal">
+          <span class="menu-icon"><i class="fas fa-clock"></i></span> SCHEDULES
+        </li>
+        <li data-target="view-tiket">
+          <span class="menu-icon"><i class="fas fa-ticket-alt"></i></span> TRANSACTIONS
+        </li>
+        <li data-target="view-pengguna">
+          <span class="menu-icon"><i class="fas fa-users"></i></span> USERS
+        </li>
+        <li data-target="view-laporan">
+          <span class="menu-icon"><i class="fas fa-chart-line"></i></span> REPORTS
         </li>
       </ul>
+      
+      <div class="sidebar-footer">
+        <a href="#" id="logout-btn" class="logout-link"><i class="fas fa-power-off"></i> TERMINATE SESSION</a>
+      </div>
     </aside>
 
-    <!-- main content -->
-    <main class="main">
-      <div class="navbar">
-        <h3 id="navbar-title">Dashboard Admin</h3>
-        <span><i class="fas fa-user-circle"></i> Admin</span>
+    <main class="main-content">
+      <header class="topbar">
+        <h3 id="navbar-title" class="topbar-title">SYSTEM OVERVIEW</h3>
+        <div class="admin-badge">
+          <i class="fas fa-shield-alt"></i> ROOT ACCESS
+        </div>
+      </header>
+
+      <div class="view-container">
+        <!-- Dashboard View -->
+        <section id="view-dashboard" class="view-section active">
+          <div class="stats-grid">
+            <div class="stat-block reveal-1">
+              <h4>ACTIVE FILMS</h4>
+              <p id="stat-total-movies" class="text-neon">----</p>
+            </div>
+            <div class="stat-block reveal-2">
+              <h4>TICKETS SOLD</h4>
+              <p>----</p>
+            </div>
+            <div class="stat-block reveal-3">
+              <h4>LIVE SCHEDULES</h4>
+              <p id="stat-active-schedules" class="text-neon">----</p>
+            </div>
+            <div class="stat-block reveal-3" style="animation-delay: 0.2s">
+              <h4>REGISTERED ACCTS</h4>
+              <p>----</p>
+            </div>
+          </div>
+
+          <div class="industrial-panel reveal-3" style="animation-delay: 0.4s">
+            <div class="panel-header">
+              <h4>RECENT DATABASE ENTRIES</h4>
+            </div>
+            <div class="table-wrapper">
+              <table class="brutal-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>TITLE</th>
+                    <th>GENRE</th>
+                    <th>DURATION</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-dash-movies"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Manajemen Film -->
+        <section id="view-manajemen-film" class="view-section hidden">
+          <div class="action-bar">
+            <button class="btn" onclick="openMovieModal()">+ INSTANTIATE MOVIE</button>
+          </div>
+          <div class="industrial-panel">
+            <div class="table-wrapper">
+              <table class="brutal-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>POSTER</th>
+                    <th>TITLE</th>
+                    <th>GENRE</th>
+                    <th>TIME</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-manage-movies"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Jadwal -->
+        <section id="view-jadwal" class="view-section hidden">
+          <div class="action-bar">
+            <button class="btn" onclick="openScheduleModal()">+ ALLOCATE SCHEDULE</button>
+          </div>
+          <div class="industrial-panel">
+            <div class="table-wrapper">
+              <table class="brutal-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>FILM REF</th>
+                    <th>STUDIO</th>
+                    <th>DATE</th>
+                    <th>TIME</th>
+                    <th>RATE</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-schedules"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tiket -->
+        <section id="view-tiket" class="view-section hidden">
+          <div class="industrial-panel">
+            <div class="panel-header">
+              <h4>TRANSACTION LOGS</h4>
+            </div>
+            <div class="table-wrapper">
+              <table class="brutal-table">
+                <thead>
+                  <tr>
+                    <th>TX_ID</th>
+                    <th>USER_REF</th>
+                    <th>FILM_REF</th>
+                    <th>AMOUNT</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody class="tbody-tickets"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pengguna -->
+        <section id="view-pengguna" class="view-section hidden">
+          <div class="industrial-panel">
+            <div class="panel-header">
+              <h4>USER REGISTRY</h4>
+            </div>
+            <div class="table-wrapper">
+              <table class="brutal-table">
+                <thead>
+                  <tr>
+                    <th>UID</th>
+                    <th>IDENTITY</th>
+                    <th>FUNDS</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody class="tbody-users"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Laporan -->
+        <section id="view-laporan" class="view-section hidden">
+          <div class="industrial-panel">
+            <div class="panel-header">
+              <h4>REVENUE METRICS (7D)</h4>
+            </div>
+            <div class="chart-container" style="height: 350px; padding: 20px;">
+              <canvas id="salesChart"></canvas>
+            </div>
+          </div>
+
+          <div class="industrial-panel" style="margin-top: 30px;">
+            <div class="panel-header">
+              <h4>TOP PERFORMING ASSETS</h4>
+            </div>
+            <div class="table-wrapper">
+              <table class="brutal-table" style="margin: 0;">
+                <thead>
+                  <tr>
+                    <th>RANK</th>
+                    <th>FILM_REF</th>
+                    <th>VOLUME</th>
+                    <th>YIELD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>01</td>
+                    <td>Rasyid Love Story</td>
+                    <td>350</td>
+                    <td class="text-neon">IDR 17,500,000</td>
+                  </tr>
+                  <tr>
+                    <td>02</td>
+                    <td>Avengers Phase Null</td>
+                    <td>210</td>
+                    <td class="text-neon">IDR 10,500,000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
       </div>
-
-      <!-- Dashboard View -->
-      <section id="view-dashboard" class="view-section active">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h4>Total Film Aktif</h4>
-            <p id="stat-total-movies">-</p>
-          </div>
-          <div class="stat-card">
-            <h4>Tiket Terjual</h4>
-            <p>-</p>
-          </div>
-          <div class="stat-card">
-            <h4>Jadwal Berlangsung</h4>
-            <p id="stat-active-schedules">-</p>
-          </div>
-          <div class="stat-card">
-            <h4>User Terdaftar</h4>
-            <p>-</p>
-          </div>
-        </div>
-
-        <div class="toolbar">
-          <h4 style="margin: 0; font-weight: normal; font-size: 1.2rem; color: var(--text-main)">Film Terbaru</h4>
-        </div>
-
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Judul Film</th>
-                <th>Genre</th>
-                <th>Durasi</th>
-                <th>Status</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-dash-movies">
-              <!-- Injected dynamically -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Manajemen Film View -->
-      <section id="view-manajemen-film" class="view-section hidden">
-        <div class="toolbar">
-          <button class="btn-add-film" onclick="openMovieModal()">+ Tambah Film</button>
-        </div>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Poster</th>
-                <th>Judul</th>
-                <th>Genre</th>
-                <th>Durasi</th>
-                <th>Status</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-manage-movies">
-              <!-- diisi langsung oleh javascript api java -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Jadwal View -->
-      <section id="view-jadwal" class="view-section hidden">
-        <div class="toolbar">
-          <button class="btn-add" onclick="openScheduleModal()">+ Tambah Jadwal</button>
-        </div>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Film</th>
-                <th>Studio</th>
-                <th>Tanggal</th>
-                <th>Jam</th>
-                <th>Harga</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-schedules">
-              <!-- ini di isi sendiri oleh data dari java -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Tiket View -->
-      <section id="view-tiket" class="view-section hidden">
-        <div class="table-container">
-          <h4 style="margin-bottom: 15px; color: var(--text-muted)">Riwayat Pesanan (Mock)</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>User</th>
-                <th>Film</th>
-                <th>Total</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody class="tbody-tickets">
-              <!-- ini di isi sendiri oleh data dari java -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Pengguna View -->
-      <section id="view-pengguna" class="view-section hidden">
-        <div class="table-container">
-          <h4 style="margin-bottom: 15px; color: var(--text-muted)">Pengguna Terdaftar (Mock)</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Saldo</th>
-                <th>Status</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody class="tbody-users">
-              <!-- ini di isi sendiri oleh data dari java -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Laporan View -->
-      <section id="view-laporan" class="view-section hidden">
-        <div
-          class="chart-container"
-          style="
-            background: var(--bg-card);
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 20px;
-          "
-        >
-          <h4>Grafik Penjualan Tiket (Minggu Ini)</h4>
-          <div style="height: 300px; margin-top: 20px">
-            <canvas id="salesChart"></canvas>
-          </div>
-        </div>
-
-        <div class="table-container">
-          <h4 style="margin-bottom: 15px; color: var(--text-muted)">Film Terlaris Minggu Ini (Mock)</h4>
-          <table>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Film</th>
-                <th>Tiket Terjual</th>
-                <th>Pendapatan</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Rasyid Love Story</td>
-                <td>350</td>
-                <td class="text-green fw-600">Rp 17.500.000</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Avengers</td>
-                <td>210</td>
-                <td class="text-green fw-600">Rp 10.500.000</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Add Movie Modal -->
-      <section id="movieModal" class="modal hidden">
-        <div class="modal-content">
-          <h3>Tambah Film Baru</h3>
-          <form id="formAddMovie">
-            <div class="form-group">
-              <label>Judul Film</label>
-              <input type="text" id="movieTitle" required />
-            </div>
-            <div class="form-group">
-              <label>Genre</label>
-              <input type="text" id="movieGenre" required />
-            </div>
-            <div class="form-group">
-              <label>Durasi (Menit)</label>
-              <input type="number" id="movieDuration" required />
-            </div>
-            <div class="modal-actions">
-              <button type="button" class="btn-secondary" onclick="closeMovieModal()">Batal</button>
-              <button
-                type="submit"
-                class="btn-primary"
-                style="background: var(--cinematic-yellow); color: #000; font-weight: bold"
-              >
-                Simpan
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <!-- Add Schedule Modal -->
-      <section id="scheduleModal" class="modal hidden">
-        <div class="modal-content">
-          <h3>Tambah Jadwal Tayang</h3>
-          <form id="formAddSchedule">
-            <div class="form-group">
-              <label>Pilih Film</label>
-              <select id="scheduleMovie" required>
-                <!-- populated by JS -->
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Pilih Studio</label>
-              <select id="scheduleStudio" required>
-                <!-- populated by JS -->
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Jam Tayang (HH:MM)</label>
-              <input type="time" id="scheduleTime" required />
-            </div>
-            <div class="modal-actions">
-              <button type="button" class="btn-secondary" onclick="closeScheduleModal()">Batal</button>
-              <button
-                type="submit"
-                class="btn-primary"
-                style="background: var(--cinematic-yellow); color: #000; font-weight: bold"
-              >
-                Simpan
-              </button>
-            </div>
-          </form>
-        </div>
-      </section>
     </main>
-    <script src="script.js"></script>
-  </body>
+  </div>
+
+  <!-- Add Movie Modal -->
+  <section id="movieModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 class="text-huge" style="font-size: 2.5rem; margin-bottom: 20px;">NEW RECORD</h3>
+      <form id="formAddMovie">
+        <div class="form-group">
+          <label>Title String</label>
+          <input type="text" id="movieTitle" required />
+        </div>
+        <div class="form-group">
+          <label>Classification</label>
+          <input type="text" id="movieGenre" required />
+        </div>
+        <div class="form-group">
+          <label>Runtime (m)</label>
+          <input type="number" id="movieDuration" required />
+        </div>
+        <div style="display: flex; gap: 15px; margin-top: 30px;">
+          <button type="submit" class="btn" style="flex: 2;">EXECUTE_WRITE</button>
+          <button type="button" class="btn btn-outline" onclick="closeMovieModal()" style="flex: 1; border-color: var(--text-muted); color: var(--text-muted);">CANCEL</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Add Schedule Modal -->
+  <section id="scheduleModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 class="text-huge" style="font-size: 2.5rem; margin-bottom: 20px;">NEW ALLOCATION</h3>
+      <form id="formAddSchedule">
+        <div class="form-group">
+          <label>Target Asset</label>
+          <select id="scheduleMovie" required></select>
+        </div>
+        <div class="form-group">
+          <label>Environment</label>
+          <select id="scheduleStudio" required></select>
+        </div>
+        <div class="form-group">
+          <label>Timestamp (HH:MM)</label>
+          <input type="time" id="scheduleTime" required />
+        </div>
+        <div style="display: flex; gap: 15px; margin-top: 30px;">
+          <button type="submit" class="btn" style="flex: 2;">COMMIT_NODE</button>
+          <button type="button" class="btn btn-outline" onclick="closeScheduleModal()" style="flex: 1; border-color: var(--text-muted); color: var(--text-muted);">CANCEL</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <script src="../script.js"></script>
+  <script src="script.js"></script>
+</body>
 </html>

@@ -1,55 +1,62 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Customer Dashboard - Cinema Ticketing</title>
-    <link rel="stylesheet" href="../globals.css" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <nav>
-      <h2>CINEMA TICKETING</h2>
-      <div class="user-info">
-        <span>Welcome, <strong id="usernameDisplay"></strong></span>
-        <span class="saldo-badge">Saldo: Rp <span id="saldoDisplay">0</span></span>
-        <button id="logoutBtn" class="btn-sm">LOGOUT</button>
-      </div>
-    </nav>
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer - ABSOLUTE CINEMA</title>
+  <link rel="stylesheet" href="../globals.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-noise"></div>
 
-    <div class="container">
-      <div class="tabs">
-        <button id="tabBrowse" class="tab-btn active" onclick="switchTab('browse')">Jadwal Tayang</button>
-        <button id="tabTickets" class="tab-btn" onclick="switchTab('tickets')">Tiket Saya</button>
-      </div>
+  <nav class="customer-nav reveal-1">
+    <div class="nav-brand">ABSOLUTE<span class="text-neon">CINEMA.</span></div>
+    <div class="user-info">
+      <span class="greeting">PATRON: <strong id="usernameDisplay"></strong></span>
+      <span class="saldo-badge" id="saldoDisplay">0</span>
+      <button id="logoutBtn" class="btn btn-sm btn-outline" style="border-color: #ff3333; color: #ff3333;">LOGOUT</button>
+    </div>
+  </nav>
 
-      <div id="viewBrowse">
-        <div id="scheduleGrid" class="grid-container"></div>
-      </div>
-
-      <div id="viewTickets" class="hidden">
-        <div id="ticketGrid" class="grid-container"></div>
-      </div>
+  <div class="container reveal-2">
+    <div class="tabs">
+      <button id="tabBrowse" class="tab-btn active" onclick="switchTab('browse')">NOW PLAYING</button>
+      <button id="tabTickets" class="tab-btn" onclick="switchTab('tickets')">YOUR STUBS</button>
     </div>
 
-    <section id="bookingModal" class="modal-overlay hidden">
-      <div class="modal-content">
-        <h3>Pesan Tiket</h3>
-        <div id="bookingInfo" class="booking-info-box"></div>
-        <form id="bookingForm">
-          <input type="hidden" id="bookMovie" />
-          <input type="hidden" id="bookStudio" />
-          <input type="hidden" id="bookTime" />
-          <input type="hidden" id="bookPrice" />
-          <div class="input-group">
-            <label for="bookSeat">Nomor Kursi</label>
-            <input type="text" id="bookSeat" placeholder="Contoh: A-1, B-10" required />
-          </div>
-          <button type="submit" class="btn-primary">BAYAR SEKARANG</button>
-          <button type="button" class="btn-cancel" onclick="closeModal()">BATAL</button>
-        </form>
-      </div>
-    </section>
+    <div id="viewBrowse">
+      <div id="scheduleGrid" class="editorial-grid"></div>
+    </div>
 
-    <script src="script.js"></script>
-  </body>
+    <div id="viewTickets" class="hidden">
+      <div id="ticketGrid" class="editorial-grid"></div>
+    </div>
+  </div>
+
+  <section id="bookingModal" class="modal-overlay hidden">
+    <div class="modal-content ticket-booking-modal">
+      <h3 class="text-huge" style="font-size: 3rem; margin-bottom: 20px;">ACQUIRE</h3>
+      <div id="bookingInfo" class="booking-info-box"></div>
+      
+      <form id="bookingForm" style="margin-top: 30px;">
+        <input type="hidden" id="bookMovie" />
+        <input type="hidden" id="bookStudio" />
+        <input type="hidden" id="bookTime" />
+        <input type="hidden" id="bookPrice" />
+        
+        <div class="form-group">
+          <label for="bookSeat">Seat Designation</label>
+          <input type="text" id="bookSeat" placeholder="e.g. A-1" required style="font-size: 2rem; font-family: var(--font-display); text-transform: uppercase;" />
+        </div>
+        
+        <div style="display: flex; gap: 15px; margin-top: 25px;">
+          <button type="submit" class="btn" style="flex: 2;">CONFIRM TRANSACTION</button>
+          <button type="button" class="btn btn-outline" onclick="closeModal()" style="flex: 1; border-color: var(--text-muted); color: var(--text-muted);">ABORT</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
 </html>
