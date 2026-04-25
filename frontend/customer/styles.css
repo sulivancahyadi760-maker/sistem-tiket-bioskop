@@ -39,7 +39,7 @@
 }
 
 .saldo-badge::before {
-  content: 'IDR ';
+  content: "IDR ";
   font-size: 0.7rem;
   vertical-align: super;
 }
@@ -89,7 +89,7 @@
 /* Grid */
 .editorial-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
 }
 
@@ -105,10 +105,12 @@
 }
 
 .movie-card::before {
-  content: '';
+  content: "";
   position: absolute;
-  top: 0; left: 0;
-  width: 4px; height: 100%;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
   background: var(--accent-neon);
   transform: scaleY(0);
   transform-origin: bottom;
@@ -126,7 +128,8 @@
 
 .card-visual {
   height: 180px;
-  background: url("https://images.unsplash.com/photo-1595769816263-9b910be24d5f?q=80&w=2079&auto=format&fit=crop") center/cover;
+  background: url("https://images.unsplash.com/photo-1595769816263-9b910be24d5f?q=80&w=2079&auto=format&fit=crop")
+    center/cover;
   filter: grayscale(100%);
   padding: 1.5rem;
   display: flex;
@@ -150,7 +153,7 @@
 }
 
 .duration-tag {
-  background: rgba(5,5,5,0.8);
+  background: rgba(5, 5, 5, 0.8);
   color: var(--accent-neon);
   padding: 5px 12px;
   font-family: var(--font-display);
@@ -225,13 +228,13 @@
 
 /* TICKET STUB */
 .ticket-card {
-  background: #E8E8E8; /* Bright contrast for the physical stub feel */
+  background: #e8e8e8; /* Bright contrast for the physical stub feel */
   color: #111;
   border-radius: 0;
   display: flex;
   flex-direction: column;
   position: relative;
-  box-shadow: 10px 10px 0 rgba(229,169,9,0.3);
+  box-shadow: 10px 10px 0 rgba(229, 169, 9, 0.3);
   overflow: hidden;
 }
 
@@ -262,16 +265,22 @@
   position: relative;
 }
 
-.perforation::before, .perforation::after {
-  content: '';
+.perforation::before,
+.perforation::after {
+  content: "";
   position: absolute;
   top: -10px;
-  width: 20px; height: 20px;
+  width: 20px;
+  height: 20px;
   background: var(--bg-main);
   border-radius: 50%;
 }
-.perforation::before { left: -32px; }
-.perforation::after { right: -32px; }
+.perforation::before {
+  left: -32px;
+}
+.perforation::after {
+  right: -32px;
+}
 
 .seat-number {
   font-family: var(--font-display);
@@ -283,7 +292,19 @@
 
 .barcode {
   height: 40px;
-  background: repeating-linear-gradient(90deg, #111, #111 2px, transparent 2px, transparent 4px, #111 4px, #111 5px, transparent 5px, transparent 8px, #111 8px, #111 12px);
+  background: repeating-linear-gradient(
+    90deg,
+    #111,
+    #111 2px,
+    transparent 2px,
+    transparent 4px,
+    #111 4px,
+    #111 5px,
+    transparent 5px,
+    transparent 8px,
+    #111 8px,
+    #111 12px
+  );
   margin-top: 1rem;
   opacity: 0.8;
 }
@@ -353,9 +374,12 @@
 }
 
 .seat::after {
-  content: '';
+  content: "";
   position: absolute;
-  top: 5px; left: 5px; right: 5px; height: 3px;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  height: 3px;
   background: var(--border-raw);
   border-radius: 2px;
   transition: all 0.3s;
@@ -375,7 +399,7 @@
 }
 
 .seat.seat-selected::after {
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .seat.seat-booked {
