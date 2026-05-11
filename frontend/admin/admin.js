@@ -5,17 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const views = document.querySelectorAll(".view-section");
   const navbarTitle = document.getElementById("navbar-title");
 
-  // Authentication Check
+  // authentication check
   if (window.utils && window.utils.checkAuth) {
     const user = window.utils.checkAuth();
     if (!user || user.role !== "admin") {
-      // Redirect if not admin
+      // redirect if not admin
       window.location.href = "../login/login.html";
       return;
     }
   }
 
-  // Handle Logout
+  // handle logout
   const logoutBtn = document.getElementById("logout-btn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", (e) => {
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Sidebar navigation logic
+  // sidebar navigation logic
   menuItems.forEach((item) => {
     item.addEventListener("click", () => {
       menuItems.forEach((m) => m.classList.remove("active"));
@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       navbarTitle.textContent = item.textContent.trim();
 
-      // Fetch data based on view
       if (targetId === "view-manajemen-film" || targetId === "view-dashboard") {
         fetchMovies();
       } else if (targetId === "view-jadwal") {
@@ -57,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchTickets();
   fetchUsers();
 
-  // Chart Rendering
+  // render chart
   const canvasElement = document.getElementById("salesChart");
   if (canvasElement && typeof Chart !== "undefined") {
     const ctx = canvasElement.getContext("2d");
@@ -161,7 +160,7 @@ const renderMovies = (movies) => {
     htmlManage += `
       <tr>
         <td>${idx + 1}</td>
-        <td>-</td> <!-- Poster mock -->
+        <td>-</td> <!-- poster mock -->
         <td>${m.namaFilm}</td>
         <td>${m.genre}</td>
         <td>${m.durasi} min</td>
@@ -199,7 +198,7 @@ const renderSchedules = (schedules) => {
         <td>${idx + 1}</td>
         <td class="fw-600 text-yellow">${s.movie ? s.movie.namaFilm : "-"}</td>
         <td>${s.studio ? s.studio.namaStudio : "-"}</td>
-        <td>-</td> <!-- Asumsi tanggal tidak ada di response model untuk sekarang -->
+        <td>-</td> <!-- asumsi tanggal tidak ada di response model untuk sekarang -->
         <td class="text-blue fw-500">${s.jamTayang}</td>
         <td class="text-green fw-600">Rp ${s.harga ? s.harga.toLocaleString('id-ID') : 0}</td>
         <td><button class="btn-delete" onclick="deleteSchedule('${s.movie ? s.movie.namaFilm : ""}', '${s.studio ? s.studio.namaStudio : ""}', '${s.jamTayang}')">Hapus</button></td>
@@ -311,7 +310,7 @@ function updateDashboardStat(id, value) {
   if (el) el.textContent = value;
 }
 
-// --- MODALS ---
+// modals
 function openMovieModal() {
   document.getElementById("movieModal").classList.remove("hidden");
 }
@@ -353,7 +352,7 @@ function closeScheduleModal() {
   if(frm) frm.reset();
 }
 
-// Form logic hooks
+// form logic hooks
 const formAddMovie = document.getElementById("formAddMovie");
 if(formAddMovie) {
   formAddMovie.addEventListener("submit", async(e) => {
@@ -410,7 +409,7 @@ if(formAddSchedule) {
   });
 }
 
-// Top Up Modal hooks
+// top up modal hooks
 function openTopupModal(username) {
   document.getElementById("topupUsername").value = username;
   document.getElementById("topupTarget").value = username;

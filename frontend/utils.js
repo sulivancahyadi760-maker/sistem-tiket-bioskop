@@ -1,9 +1,9 @@
 window.utils = {
   /**
-   * mengembalikan format rupiah Indonesia
+   * mengembalikan format rupiah indonesia
    * @param {number} number - angka yang ingin di format
-   * @returns {string} - angka yang sudah di format Rupiah
-   * @example formatRupiah(1000) // "Rp1.000"
+   * @returns {string} - angka yang sudah di format rupiah
+   * @example formatRupiah(1000) // "rp1.000"
    */
   formatRupiah: (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -14,12 +14,12 @@ window.utils = {
   },
   // fungsi untuk cek auth
   checkAuth: () => {
-    const user = localStorage.getItem("user");
+    const user = sessionStorage.getItem("user");
     return user ? JSON.parse(user) : null;
   },
   // fungsi untuk logout
   logout: () => {
-    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
     window.location.href = "../index.html";
   },
   // fungsi untuk menampilkan alert
@@ -33,7 +33,7 @@ window.utils = {
 
     const toast = document.createElement("div");
     toast.className = `toast toast-${type}`;
-    
+
     const text = document.createElement("span");
     text.className = "toast-message";
     text.textContent = msg;
@@ -51,7 +51,6 @@ window.utils = {
     toast.appendChild(closeBtn);
     container.appendChild(toast);
 
-    // Trigger reflow safely using requestAnimationFrame
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         toast.classList.add("show");

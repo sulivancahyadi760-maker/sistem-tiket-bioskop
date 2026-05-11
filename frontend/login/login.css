@@ -10,7 +10,7 @@ body {
   width: 100%;
 }
 
-/* --- LEFT SIDE (FORM) --- */
+/* left side (form) */
 .auth-side {
   flex: 1;
   display: flex;
@@ -93,7 +93,7 @@ label {
   text-decoration: underline !important;
 }
 
-/* --- RIGHT SIDE (BANNER) --- */
+/* right side (banner) */
 .banner-side {
   flex: 1.2;
   position: relative;

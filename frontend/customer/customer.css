@@ -1,4 +1,4 @@
-/* Navigation */
+/* navigation */
 .customer-nav {
   display: flex;
   justify-content: space-between;
@@ -8,12 +8,6 @@
   border-bottom: 2px solid var(--border-raw);
 }
 
-.nav-brand {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
 
 .user-info {
   display: flex;
@@ -44,14 +38,14 @@
   vertical-align: super;
 }
 
-/* Container */
+/* container */
 .container {
   padding: 3rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-/* Tabs */
+/* tabs */
 .tabs {
   display: flex;
   gap: 3rem;
@@ -86,14 +80,14 @@
   border-bottom: 4px solid var(--accent-neon);
 }
 
-/* Grid */
+/* grid */
 .editorial-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
 }
 
-/* MOVIE CARD */
+/* movie card */
 .movie-card {
   background: var(--bg-card);
   border: 1px solid var(--border-raw);
@@ -226,7 +220,7 @@
   background: var(--accent-neon);
 }
 
-/* TICKET STUB */
+/* ticket stub */
 .ticket-card {
   background: #e8e8e8; /* Bright contrast for the physical stub feel */
   color: #111;
@@ -309,7 +303,7 @@
   opacity: 0.8;
 }
 
-/* Booking Modal specifics */
+/* booking modal specifics */
 .booking-info-box {
   background: #111;
   padding: 1.5rem;
@@ -319,7 +313,7 @@
   line-height: 1.6;
 }
 
-/* Seat Map Styling */
+/* seat map styling */
 .seat-map-container {
   background: #111;
   border: 1px solid var(--border-raw);

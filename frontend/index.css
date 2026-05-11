@@ -1,9 +1,5 @@
-/* =====================================================
-   landing.css — Root index.html cinematic landing
-   ABSOLUTE CINEMA
-   ===================================================== */
 
-/* ─── NAV ─────────────────────────────────────────── */
+/* nav */
 .landing-nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -88,7 +84,7 @@
   vertical-align: super;
 }
 
-/* ─── HERO ────────────────────────────────────────── */
+/* hero */
 .hero-landing {
   position: relative;
   height: 100vh;
@@ -123,7 +119,7 @@
     linear-gradient(to right, var(--bg-main) 0%, transparent 45%);
 }
 
-/* Film grain scanline */
+/* film grain scanline */
 .hero-scan {
   position: absolute;
   inset: 0;
@@ -228,7 +224,7 @@
   50%       { transform: translateY(5px); }
 }
 
-/* Carousel dot indicators */
+/* carousel dot indicators */
 .hero-indicators {
   position: absolute;
   right: 4vw;
@@ -257,7 +253,7 @@
   box-shadow: 0 0 10px rgba(229,169,9,0.5);
 }
 
-/* Scroll indicator */
+/* scroll indicator */
 .scroll-hint {
   position: absolute;
   bottom: 2.5rem;
@@ -287,7 +283,7 @@
   100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
 }
 
-/* ─── SHOWCASE ────────────────────────────────────── */
+/* showcase */
 .showcase-section {
   padding: 8rem 3rem 5rem;
   max-width: 1700px;
@@ -356,14 +352,14 @@
 }
 .filter-btn.active::after { content: ' ◂'; }
 
-/* ─── POSTER GRID ─────────────────────────────────── */
+/* poster grid */
 .poster-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 2px;
 }
 
-/* Skeleton shimmer */
+/* skeleton shimmer */
 .poster-skeleton {
   aspect-ratio: 2/3;
   background: linear-gradient(110deg, var(--bg-card) 30%, #1c1c1c 50%, var(--bg-card) 70%);
@@ -375,7 +371,7 @@
   100% { background-position: -200% 0; }
 }
 
-/* ─── POSTER CARD ─────────────────────────────────── */
+/* poster card */
 .poster-card {
   position: relative;
   aspect-ratio: 2/3;
@@ -423,7 +419,7 @@
   );
 }
 
-/* Top badges */
+/* top badges */
 .poster-top {
   position: absolute;
   top: 0.9rem;
@@ -461,7 +457,7 @@
   backdrop-filter: blur(4px);
 }
 
-/* Card info bottom */
+/* card info bottom */
 .poster-info {
   transform: translateY(8px);
   transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
@@ -536,7 +532,7 @@
   box-shadow: none;
 }
 
-/* Login gate badge — shown instead of CTA when not logged in */
+/* login gate badge — shown instead of cta when not logged in */
 .poster-gate {
   font-family: var(--font-display);
   font-size: 0.62rem;
@@ -563,7 +559,7 @@
   transform: translateY(0);
 }
 
-/* Error/empty state */
+/* error/empty state */
 .no-movie-placeholder {
   grid-column: 1 / -1;
   text-align: center;
@@ -574,7 +570,7 @@
   font-size: 1.1rem;
 }
 
-/* ─── STATS STRIP ─────────────────────────────────── */
+/* stats strip */
 .stats-strip {
   background: var(--bg-card);
   border-top: 1px solid var(--border-raw);
@@ -618,7 +614,7 @@
   flex-shrink: 0;
 }
 
-/* ─── CTA SECTION ─────────────────────────────────── */
+/* cta section */
 .cta-section {
   padding: 8rem 3rem;
   display: flex;
@@ -671,10 +667,10 @@
   letter-spacing: 3px;
 }
 
-/* Hide CTA section when logged in */
+/* hide cta section when logged in */
 .cta-section.hidden { display: none; }
 
-/* ─── FOOTER ──────────────────────────────────────── */
+/* footer */
 .landing-footer {
   padding: 4rem 3rem;
   display: flex;
@@ -699,7 +695,7 @@
   text-transform: uppercase;
 }
 
-/* ─── RESPONSIVE ──────────────────────────────────── */
+/* responsive */
 @media (max-width: 960px) {
   .landing-nav { padding: 1rem 1.5rem; }
   .nav-center  { display: none; }

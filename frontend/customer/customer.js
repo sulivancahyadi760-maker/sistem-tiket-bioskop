@@ -1,8 +1,8 @@
 const API_URL = "http://localhost:8080/api";
-let user = JSON.parse(localStorage.getItem("user"));
+let user = JSON.parse(sessionStorage.getItem("user"));
 
 // cek kalo user udah gaada maka lempar ke logout
-if (!user || user.role !== "customer") window.location.href = "../login/login.html";
+if (!user || user.role !== "customer") window.location.href = "../index.html";
 
 function updateHeader() {
   document.getElementById("usernameDisplay").textContent = user.username;
@@ -10,13 +10,13 @@ function updateHeader() {
 }
 updateHeader();
 
-// Logout — kembali ke landing page utama
+// logout — kembali ke landing page utama
 document.getElementById("logoutBtn").addEventListener("click", () => {
-  localStorage.removeItem("user");
+  sessionStorage.removeItem("user");
   window.location.href = "../index.html";
 });
 
-// Tab Switcher
+// tab switcher
 function switchTab(tab) {
   document.getElementById("viewBrowse").classList.toggle("hidden", tab !== "browse");
   document.getElementById("viewTickets").classList.toggle("hidden", tab !== "tickets");
@@ -66,9 +66,8 @@ async function loadSchedules() {
                                 <label style="font-size: 9px; color: #666; display: block;">HARGA TIKET</label>
                                 <strong class="price-text">Rp ${harga.toLocaleString("id-ID")}</strong>
                             </div>
-                            <button class="btn-buy" onclick="openModal('${sch.movie.namaFilm}', '${
-        sch.studio.namaStudio
-      }', '${sch.jamTayang}', ${harga})">
+                            <button class="btn-buy" onclick="openModal('${sch.movie.namaFilm}', '${sch.studio.namaStudio
+        }', '${sch.jamTayang}', ${harga})">
                                 BELI TIKET
                             </button>
                         </div>
@@ -129,15 +128,15 @@ async function openModal(movie, studio, time, price) {
   document.getElementById("bookPrice").value = price;
   document.getElementById("bookSeat").value = "";
   document.getElementById("selectedSeatLabel").textContent = "NONE";
-  
-  // Perbaiki warna kuning, sebelumnya --cinematic-yellow yang tidak defined
+
+  // perbaiki warna kuning, sebelumnya --cinematic-yellow yang tidak defined
   document.getElementById("bookingInfo").innerHTML = `
         <p><strong>Film:</strong> ${movie}</p>
         <p><strong>Studio:</strong> ${studio} | <strong>Jam:</strong> ${time}</p>
         <p style="color: var(--accent-neon); font-size: 1.2rem; margin-top: 10px;"><strong>Harga: Rp ${price.toLocaleString(
-          "id-ID"
-        )}</strong></p>`;
-  
+    "id-ID"
+  )}</strong></p>`;
+
   document.getElementById("bookingModal").classList.remove("hidden");
   document.getElementById("seatGrid").innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--accent-neon); font-family: var(--font-display);">LOADING SEATING PLAN...</p>';
 
@@ -164,11 +163,11 @@ function generateSeatGrid(bookedSeats) {
     for (let c = 1; c <= cols; c++) {
       const seatId = `${r}-${c}`;
       const isBooked = bookedSeats.includes(seatId);
-      
+
       const seatEl = document.createElement("div");
       seatEl.className = `seat ${isBooked ? 'seat-booked' : 'seat-available'}`;
       seatEl.textContent = seatId;
-      
+
       if (!isBooked) {
         seatEl.onclick = () => selectSeat(seatId, seatEl);
       }
@@ -179,14 +178,14 @@ function generateSeatGrid(bookedSeats) {
 
 function selectSeat(seatId, seatEl) {
   document.querySelectorAll(".seat-selected").forEach(el => {
-    if(el !== seatEl) el.classList.remove("seat-selected");
+    if (el !== seatEl) el.classList.remove("seat-selected");
   });
-  
+
   seatEl.classList.toggle("seat-selected");
-  
+
   const input = document.getElementById("bookSeat");
   const label = document.getElementById("selectedSeatLabel");
-  
+
   if (seatEl.classList.contains("seat-selected")) {
     input.value = seatId;
     label.textContent = seatId;
@@ -203,17 +202,17 @@ function closeModal() {
 // form submit pesan tiket
 document.getElementById("bookingForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-  
+
   const seatInput = document.getElementById("bookSeat").value;
   if (!seatInput) {
-    if(window.utils) window.utils.showAlert("TARGET SEAT REQUIRED.", "error");
+    if (window.utils) window.utils.showAlert("TARGET SEAT REQUIRED.", "error");
     else alert("Silakan pilih tempat duduk terlebih dahulu.");
     return;
   }
-  
+
   const price = parseInt(document.getElementById("bookPrice").value);
   if (user.saldo < price) {
-    if(window.utils) window.utils.showAlert("INSUFFICIENT FUNDS.", "error");
+    if (window.utils) window.utils.showAlert("INSUFFICIENT FUNDS.", "error");
     else alert("Saldo tidak mencukupi!");
     return;
   }
@@ -235,30 +234,30 @@ document.getElementById("bookingForm").addEventListener("submit", async (e) => {
 
     if (res.ok) {
       user.saldo -= price;
-      localStorage.setItem("user", JSON.stringify(user));
+      sessionStorage.setItem("user", JSON.stringify(user));
       updateHeader();
       closeModal();
-      if(window.utils) window.utils.showAlert("TRANSACTION COMPLETED.", "success");
+      if (window.utils) window.utils.showAlert("TRANSACTION COMPLETED.", "success");
       else alert("Tiket berhasil dipesan!");
       switchTab("tickets");
     } else {
       const errJson = await res.json();
-      if(window.utils) window.utils.showAlert(errJson.message || "FAILED TO ACQUIRE TICKET.", "error");
+      if (window.utils) window.utils.showAlert(errJson.message || "FAILED TO ACQUIRE TICKET.", "error");
       else alert(errJson.message || "Gagal memesan.");
     }
   } catch (error) {
-    if(window.utils) window.utils.showAlert("CRITICAL SYSTEM FAILURE.", "error");
+    if (window.utils) window.utils.showAlert("CRITICAL SYSTEM FAILURE.", "error");
     else alert("Terjadi kesalahan sistem.");
   }
 });
 
 window.onload = () => {
   switchTab("browse");
-  // If arriving from landing page with a pre-selected movie
+  // if arriving from landing page with a pre-selected movie
   const selectedMovie = sessionStorage.getItem("selectedMovie");
   if (selectedMovie) {
     sessionStorage.removeItem("selectedMovie");
-    // After schedules load, highlight the selected movie card
+    // after schedules load, highlight the selected movie card
     setTimeout(() => {
       const cards = document.querySelectorAll(".movie-card");
       cards.forEach(card => {

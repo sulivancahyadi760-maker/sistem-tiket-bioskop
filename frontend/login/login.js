@@ -38,12 +38,12 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
 
       if (res.ok) {
         const userData = result.data;
-        localStorage.setItem("user", JSON.stringify(userData));
+        sessionStorage.setItem("user", JSON.stringify(userData));
 
         if (userData.role === "admin") {
           window.location.href = "../admin/dashboard.html";
         } else {
-          // Cek apakah ada redirect yang ditunda dari landing page
+          // cek apakah ada redirect yang ditunda dari landing page
           const redirect = sessionStorage.getItem("loginRedirect");
           sessionStorage.removeItem("loginRedirect");
           window.location.href = redirect ? `../${redirect}` : "../index.html";

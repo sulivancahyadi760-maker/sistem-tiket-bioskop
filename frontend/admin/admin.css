@@ -1,11 +1,11 @@
-/* Layout structure */
+/* layout structure */
 .admin-layout {
   display: flex;
   height: 100vh;
   width: 100%;
 }
 
-/* Sidebar */
+/* sidebar */
 .sidebar {
   width: 280px;
   background-color: var(--bg-main);
@@ -83,7 +83,7 @@
   color: #ff6666;
 }
 
-/* Main Content */
+/* main content */
 .main-content {
   flex: 1;
   display: flex;
@@ -120,14 +120,14 @@
   padding: 3rem;
 }
 
-/* Views */
+/* views */
 .action-bar {
   margin-bottom: 2rem;
   display: flex;
   justify-content: flex-end;
 }
 
-/* Stats */
+/* stats */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -163,7 +163,7 @@
   line-height: 1;
 }
 
-/* Industrial Panel & Table */
+/* industrial panel & table */
 .industrial-panel {
   background: var(--bg-main);
   border: 1px solid var(--border-raw);
@@ -225,7 +225,7 @@
   border-color: var(--accent-neon);
 }
 
-/* Action Buttons inside tables */
+/* action buttons inside tables */
 .brutal-table button {
   padding: 6px 12px;
   font-size: 0.8rem;
