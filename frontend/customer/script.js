@@ -10,10 +10,10 @@ function updateHeader() {
 }
 updateHeader();
 
-// Logout
+// Logout — kembali ke landing page utama
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("user");
-  window.location.href = "../login/login.html";
+  window.location.href = "../index.html";
 });
 
 // Tab Switcher
@@ -252,4 +252,27 @@ document.getElementById("bookingForm").addEventListener("submit", async (e) => {
   }
 });
 
-window.onload = () => switchTab("browse");
+window.onload = () => {
+  switchTab("browse");
+  // If arriving from landing page with a pre-selected movie
+  const selectedMovie = sessionStorage.getItem("selectedMovie");
+  if (selectedMovie) {
+    sessionStorage.removeItem("selectedMovie");
+    // After schedules load, highlight the selected movie card
+    setTimeout(() => {
+      const cards = document.querySelectorAll(".movie-card");
+      cards.forEach(card => {
+        const titleEl = card.querySelector(".movie-title");
+        if (titleEl && titleEl.textContent.toUpperCase() === selectedMovie.toUpperCase()) {
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+          card.style.outline = "2px solid var(--accent-neon)";
+          card.style.boxShadow = "0 0 30px rgba(229,169,9,0.3)";
+          setTimeout(() => {
+            card.style.outline = "";
+            card.style.boxShadow = "";
+          }, 3000);
+        }
+      });
+    }, 1200);
+  }
+};

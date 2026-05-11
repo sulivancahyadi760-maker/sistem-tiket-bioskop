@@ -1,140 +1,156 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ABSOLUTE CINEMA</title>
-  <link rel="stylesheet" href="globals.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    /* Specific Index Styles */
-    .hero-section {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 5vw;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
-      z-index: -2;
-      filter: grayscale(100%) contrast(120%);
-      transform: scale(1.05);
-      animation: panZoom 20s infinite alternate linear;
-    }
-
-    @keyframes panZoom {
-      0% { transform: scale(1.05) translate(0, 0); }
-      100% { transform: scale(1.15) translate(-2%, -2%); }
-    }
-
-    .hero-overlay {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(to top, var(--bg-main) 0%, rgba(5,5,5,0.6) 50%, rgba(5,5,5,0.8) 100%);
-      z-index: -1;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 10;
-      max-width: 1200px;
-    }
-
-    .brand-eyebrow {
-      font-family: var(--font-body);
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      color: var(--accent-neon);
-      margin-bottom: 20px;
-      font-weight: 500;
-      display: block;
-    }
-
-    .hero-title {
-      margin: 0;
-      margin-bottom: 30px;
-      line-height: 0.85;
-      text-transform: uppercase;
-    }
-    
-    .hero-title span {
-      display: block;
-    }
-
-    .hero-desc {
-      font-size: 1.25rem;
-      max-width: 500px;
-      color: var(--text-muted);
-      margin-bottom: 50px;
-      line-height: 1.6;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .vertical-scroll-indicator {
-      position: absolute;
-      right: 5vw;
-      bottom: 5vw;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      transform: rotate(90deg);
-      transform-origin: right bottom;
-      font-family: var(--font-display);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .vertical-scroll-indicator::before {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 2px;
-      background: var(--text-muted);
-    }
-
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABSOLUTE CINEMA — Premium Ticketing</title>
+  <meta name="description" content="Temukan film terbaik yang sedang tayang di ABSOLUTE CINEMA. Pengalaman sinematik yang tak tertandingi." />
+  <link rel="stylesheet" href="globals.css" />
+  <link rel="stylesheet" href="landing.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
   <div class="bg-noise"></div>
+  <div id="toast-container"></div>
 
-  <section class="hero-section">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    
+  <!-- ═══════════════════════════════════════════
+       NAV — Adaptif berdasarkan auth state
+  ═══════════════════════════════════════════ -->
+  <nav class="landing-nav" id="mainNav">
+    <div class="nav-brand">ABSOLUTE<span class="text-neon">CINEMA.</span></div>
+
+    <div class="nav-center">
+      <span class="nav-tagline">A CINEMATIC EXPERIENCE</span>
+    </div>
+
+    <div class="nav-right">
+      <!-- State: Belum login -->
+      <div class="nav-guest" id="navGuest">
+        <a href="login/login.html" class="btn btn-sm">LOGIN</a>
+      </div>
+
+      <!-- State: Sudah login sebagai customer -->
+      <div class="nav-customer hidden" id="navCustomer">
+        <span class="patron-label">PATRON: <strong id="usernameDisplay"></strong></span>
+        <span class="saldo-pill" id="saldoDisplay">0</span>
+        <a href="customer/customer.html" id="myTicketsBtn" class="btn btn-sm btn-outline">MY STUBS</a>
+        <button id="logoutBtn" class="btn btn-sm" style="border:2px solid #ff3333;color:#ff3333;background:transparent;">LOGOUT</button>
+      </div>
+
+      <!-- State: Sudah login sebagai admin -->
+      <div class="nav-admin hidden" id="navAdmin">
+        <span class="patron-label">ADMIN: <strong id="adminDisplay"></strong></span>
+        <a href="admin/admin.html" class="btn btn-sm">ADMIN PANEL</a>
+        <button id="adminLogoutBtn" class="btn btn-sm" style="border:2px solid #ff3333;color:#ff3333;background:transparent;">LOGOUT</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       HERO — Cinematic carousel dari film API
+  ═══════════════════════════════════════════ -->
+  <section class="hero-landing" id="heroSection">
+    <div class="hero-reel" id="heroReel"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-scan"></div>
+
     <div class="hero-content">
-      <span class="brand-eyebrow reveal-1">Premium Ticketing</span>
-      <h1 class="hero-title text-huge reveal-2">
-        <span>Absolute</span>
-        <span class="text-neon">Cinema.</span>
+      <div class="hero-meta reveal-1">
+        <span class="feature-tag">&#x25CF; NOW PLAYING</span>
+        <span class="year-tag">2025</span>
+      </div>
+      <h1 class="hero-title reveal-2">
+        <span class="title-line-1" id="heroLine1">ABSOLUTE</span>
+        <span class="title-line-2 text-neon" id="heroLine2">CINEMA</span>
       </h1>
-      <p class="hero-desc reveal-3">
-        Enter the void. A brutally dark, radically luxurious platform designed entirely for those who treat film as a ritual. No distractions. Pure visual immersion.
+      <p class="hero-genre reveal-3" id="heroGenre">— PREMIUM CINEMATIC EXPERIENCE</p>
+      <p class="hero-desc reveal-3" id="heroDesc">
+        Enter the void. Discover films playing now and secure your seat with a single click.
       </p>
-      
-      <div class="hero-actions reveal-3" style="animation-delay: 0.6s;">
-        <a href="login/login.html" class="btn">Enter The Void</a>
-        <a href="customer/customer.html" class="btn btn-outline">Browse Catalog</a>
+      <div class="hero-cta reveal-3">
+        <button class="btn hero-btn" onclick="scrollToShowcase()">
+          <span>LIHAT SEMUA FILM</span>
+          <i class="fa fa-arrow-down"></i>
+        </button>
+        <a href="login/login.html" class="btn btn-outline hero-btn-secondary" id="heroLoginBtn">LOGIN UNTUK PESAN</a>
       </div>
     </div>
 
-    <div class="vertical-scroll-indicator reveal-3" style="animation-delay: 1s;">
-      Discover
+    <div class="hero-indicators" id="heroIndicators"></div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <span>SCROLL</span>
     </div>
   </section>
 
+  <!-- ═══════════════════════════════════════════
+       SHOWCASE — Poster grid + genre filter
+  ═══════════════════════════════════════════ -->
+  <section class="showcase-section" id="showcaseSection">
+    <div class="showcase-header">
+      <div>
+        <div class="section-label">&#x25CF; PROGRAM TAYANG</div>
+        <h2 class="showcase-title">NOW<br/><span class="text-neon">SHOWING</span></h2>
+      </div>
+      <div class="showcase-filter" id="filterBar">
+        <button class="filter-btn active" data-genre="all" onclick="filterByGenre('all', this)">ALL</button>
+        <!-- Genre buttons injected by JS -->
+      </div>
+    </div>
+
+    <div class="poster-grid" id="posterGrid">
+      <div class="poster-skeleton"></div>
+      <div class="poster-skeleton"></div>
+      <div class="poster-skeleton"></div>
+      <div class="poster-skeleton"></div>
+      <div class="poster-skeleton"></div>
+      <div class="poster-skeleton"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       STATS STRIP
+  ═══════════════════════════════════════════ -->
+  <section class="stats-strip" id="statsStrip">
+    <div class="stat-item">
+      <span class="stat-number" id="statMovies">—</span>
+      <span class="stat-label">FILMS PLAYING</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number" id="statStudios">—</span>
+      <span class="stat-label">STUDIOS</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number" id="statSchedules">—</span>
+      <span class="stat-label">JADWAL TAYANG</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CTA SECTION — Buat yang belum login
+  ═══════════════════════════════════════════ -->
+  <section class="cta-section" id="ctaSection">
+    <div class="cta-inner">
+      <div class="cta-line"></div>
+      <p class="cta-label">SIAP UNTUK MENONTON?</p>
+      <h2 class="cta-title">MASUK KE<br/><span class="text-neon">VOID</span></h2>
+      <p class="cta-sub">Login untuk memesan tiket dan melihat daftar nonton kamu.</p>
+      <a href="login/login.html" class="btn cta-btn" id="ctaLoginBtn">LOGIN / DAFTAR</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="landing-footer">
+    <div class="footer-brand">ABSOLUTE<span class="text-neon">CINEMA.</span></div>
+    <p class="footer-copy">Pure cinematic immersion. No distractions.</p>
+  </footer>
+
   <script src="script.js"></script>
+  <script src="landing.js"></script>
 </body>
 </html>

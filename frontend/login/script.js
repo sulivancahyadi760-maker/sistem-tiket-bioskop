@@ -39,7 +39,15 @@ document.getElementById("authForm").addEventListener("submit", async (e) => {
       if (res.ok) {
         const userData = result.data;
         localStorage.setItem("user", JSON.stringify(userData));
-        window.location.href = userData.role === "admin" ? "../admin/dashboard.html" : "../customer/customer.html";
+
+        if (userData.role === "admin") {
+          window.location.href = "../admin/dashboard.html";
+        } else {
+          // Cek apakah ada redirect yang ditunda dari landing page
+          const redirect = sessionStorage.getItem("loginRedirect");
+          sessionStorage.removeItem("loginRedirect");
+          window.location.href = redirect ? `../${redirect}` : "../index.html";
+        }
       } else {
         errorMsg.textContent = result.message || "Login gagal";
         errorMsg.className = "error text-danger";
