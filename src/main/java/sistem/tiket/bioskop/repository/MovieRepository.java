@@ -16,14 +16,15 @@ public class MovieRepository {
 
     public void loadDataCSV() {
         this.movieList = CSVUtils.read(CSV_PATH, data -> {
-            if (data.length != 3)
+            if (data.length < 3)
                 return null;
-            return new Movie(data[0].trim(), Integer.parseInt(data[1].trim()), data[2].trim());
+            String poster = (data.length >= 4) ? data[3].trim() : "";
+            return new Movie(data[0].trim(), Integer.parseInt(data[1].trim()), data[2].trim(), poster);
         });
     }
 
     public void saveDataToCSV() {
-        CSVUtils.write(CSV_PATH, movieList, mv -> mv.getNamaFilm() + "," + mv.getDurasi() + "," + mv.getGenre());
+        CSVUtils.write(CSV_PATH, movieList, mv -> mv.getNamaFilm() + "," + mv.getDurasi() + "," + mv.getGenre() + "," + mv.getPosterUrl());
     }
 
     public Movie findMovie(String namaFilm) {

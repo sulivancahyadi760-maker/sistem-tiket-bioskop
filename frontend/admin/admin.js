@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.utils && window.utils.checkAuth) {
     const user = window.utils.checkAuth();
     if (!user || user.role !== "admin") {
-      // redirect if not admin
       window.location.href = "../login/login.html";
       return;
     }
@@ -160,7 +159,7 @@ const renderMovies = (movies) => {
     htmlManage += `
       <tr>
         <td>${idx + 1}</td>
-        <td>-</td> <!-- poster mock -->
+        <td><img src="${m.posterUrl || 'https://via.placeholder.com/50x75'}" alt="Poster" /></td>
         <td>${m.namaFilm}</td>
         <td>${m.genre}</td>
         <td>${m.durasi} min</td>
@@ -360,7 +359,8 @@ if(formAddMovie) {
     const payload = {
       namaFilm: document.getElementById("movieTitle").value,
       durasi: parseInt(document.getElementById("movieDuration").value),
-      genre: document.getElementById("movieGenre").value
+      genre: document.getElementById("movieGenre").value,
+      posterUrl: window.utils ? window.utils.optimizeUnsplashUrl(document.getElementById("moviePosterUrl").value) : document.getElementById("moviePosterUrl").value
     };
     try {
       const res = await fetch(`${API_BASE_URL}/movies`, {

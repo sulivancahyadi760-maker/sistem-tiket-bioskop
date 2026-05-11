@@ -45,7 +45,7 @@ async function loadSchedules() {
       const harga = sch.harga;
       grid.innerHTML += `
                 <div class="movie-card">
-                    <div class="card-visual">
+                    <div class="card-visual" style="background-image: url('${sch.movie.posterUrl}')">
                         <span class="badge-genre">${sch.movie.genre}</span>
                         <span class="duration-tag">${sch.movie.durasi}m</span>
                     </div>
@@ -66,7 +66,7 @@ async function loadSchedules() {
                                 <label style="font-size: 9px; color: #666; display: block;">HARGA TIKET</label>
                                 <strong class="price-text">Rp ${harga.toLocaleString("id-ID")}</strong>
                             </div>
-                            <button class="btn-buy" onclick="openModal('${sch.movie.namaFilm}', '${sch.studio.namaStudio
+                            <button class="btn-buy" onclick="openModal('${sch.movie.posterUrl}', '${sch.movie.namaFilm}', '${sch.studio.namaStudio
         }', '${sch.jamTayang}', ${harga})">
                                 BELI TIKET
                             </button>
@@ -121,7 +121,7 @@ const loadTickets = async () => {
   }
 };
 
-async function openModal(movie, studio, time, price) {
+async function openModal(posterUrl, movie, studio, time, price) {
   document.getElementById("bookMovie").value = movie;
   document.getElementById("bookStudio").value = studio;
   document.getElementById("bookTime").value = time;
@@ -131,11 +131,15 @@ async function openModal(movie, studio, time, price) {
 
   // perbaiki warna kuning, sebelumnya --cinematic-yellow yang tidak defined
   document.getElementById("bookingInfo").innerHTML = `
-        <p><strong>Film:</strong> ${movie}</p>
-        <p><strong>Studio:</strong> ${studio} | <strong>Jam:</strong> ${time}</p>
-        <p style="color: var(--accent-neon); font-size: 1.2rem; margin-top: 10px;"><strong>Harga: Rp ${price.toLocaleString(
-    "id-ID"
-  )}</strong></p>`;
+        <div style="display: flex; gap: 20px;">
+            <img src="${posterUrl}" style="width: 120px; height: 180px; object-fit: cover; border: 1px solid var(--border-raw);">
+            <div>
+                <p style="font-size: 1.5rem; color: var(--text-primary); margin-bottom: 10px;"><strong>${movie}</strong></p>
+                <p><strong>Studio:</strong> ${studio}</p>
+                <p><strong>Jam:</strong> ${time}</p>
+                <p style="color: var(--accent-neon); font-size: 1.2rem; margin-top: 15px;"><strong>Rp ${price.toLocaleString("id-ID")}</strong></p>
+            </div>
+        </div>`;
 
   document.getElementById("bookingModal").classList.remove("hidden");
   document.getElementById("seatGrid").innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--accent-neon); font-family: var(--font-display);">LOADING SEATING PLAN...</p>';

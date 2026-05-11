@@ -13,7 +13,7 @@ public class MovieController {
         this.movieRepo = movieRepo;
     }
 
-    public boolean addFilm(String namaFilm, int durasi, String genre) {
+    public boolean addFilm(String namaFilm, int durasi, String genre, String posterUrl) {
         if (durasi <= 0 || namaFilm.trim().isEmpty()) {
             System.out.println("Data film tidak valid");
             return false;
@@ -25,7 +25,7 @@ public class MovieController {
             }
         }
 
-        Movie newMovie = new Movie(namaFilm, durasi, genre);
+        Movie newMovie = new Movie(namaFilm, durasi, genre, posterUrl);
         movieRepo.addFilm(newMovie);
         return true;
     }

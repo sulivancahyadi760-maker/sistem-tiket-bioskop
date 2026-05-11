@@ -55,6 +55,7 @@ public class CinemaRestController {
         public String namaFilm;
         public int durasi;
         public String genre;
+        public String posterUrl;
     }
 
     public static class ScheduleReq {
@@ -178,7 +179,7 @@ public class CinemaRestController {
 
     @PostMapping("/movies")
     public ResponseEntity<?> addMovie(@RequestBody MovieReq req) {
-        boolean success = movieController.addFilm(req.namaFilm, req.durasi, req.genre);
+        boolean success = movieController.addFilm(req.namaFilm, req.durasi, req.genre, req.posterUrl);
         if (success) {
             return buildResponse(HttpStatus.CREATED, "Film berhasil ditambahkan", null);
         }

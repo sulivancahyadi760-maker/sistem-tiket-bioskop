@@ -234,3 +234,16 @@
 
 .brutal-table .text-success { color: #5cb85c; }
 .brutal-table .text-danger { color: #d9534f; }
+
+
+select {
+  cursor: pointer;
+  background-color: #111 !important;
+  padding: 12px 10px !important;
+}
+
+select option {
+  background-color: #111;
+  color: var(--text-primary);
+  padding: 10px;
+}

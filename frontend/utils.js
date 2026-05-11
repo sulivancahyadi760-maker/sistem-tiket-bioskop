@@ -64,4 +64,14 @@ window.utils = {
       }
     }, 4000);
   },
+  // fungsi untuk optimasi URL gambar Unsplash
+  optimizeUnsplashUrl: (url) => {
+    if (!url || !url.includes("images.unsplash.com")) return url;
+    try {
+      const baseUrl = url.split("?")[0];
+      return `${baseUrl}?q=80&w=1025&auto=format&fit=crop`;
+    } catch (e) {
+      return url;
+    }
+  },
 };

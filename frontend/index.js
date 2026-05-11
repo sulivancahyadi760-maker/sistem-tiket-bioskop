@@ -75,9 +75,14 @@ const FALLBACK_POSTERS = [
   "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=1025&auto=format&fit=crop",
 ];
 
-function getPoster(genre, idx) {
-  return GENRE_POSTERS[(genre || "").toLowerCase()]
-    || FALLBACK_POSTERS[idx % FALLBACK_POSTERS.length];
+function getPoster(movie, idx) {
+  // prioritaskan poster dari backend
+  if (movie && movie.posterUrl && movie.posterUrl.trim() !== "") {
+    return movie.posterUrl;
+  }
+  // fallback ke genre-based pool
+  const genre = (movie && movie.genre) ? movie.genre.toLowerCase() : "";
+  return GENRE_POSTERS[genre] || FALLBACK_POSTERS[idx % FALLBACK_POSTERS.length];
 }
 
 /* data state */
@@ -100,6 +105,7 @@ async function loadData() {
           namaFilm: sch.movie.namaFilm,
           genre: sch.movie.genre,
           durasi: sch.movie.durasi,
+          posterUrl: sch.movie.posterUrl,
           schedules: [],
         };
       }
@@ -225,7 +231,7 @@ function showHeroSlide(i) {
 
   // swap hero background
   const reel = document.getElementById("heroReel");
-  reel.style.backgroundImage = `url('${getPoster(movie.genre, i)}')`;
+  reel.style.backgroundImage = `url('${getPoster(movie, i)}')`;
 
   // sync dots
   document.querySelectorAll(".hero-dot").forEach((d, idx) =>
@@ -243,7 +249,7 @@ function renderPosters() {
   }
 
   filteredMovies.forEach((movie, idx) => {
-    const posterUrl = getPoster(movie.genre, idx);
+    const posterUrl = getPoster(movie, idx);
     const minPrice = Math.min(...movie.schedules.map(s => s.price));
 
     // tombol aksi — beda tergantung auth state
