@@ -1,4 +1,4 @@
-package sistem.tiket.bioskop.controller;
+package sistem.tiket.bioskop.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,10 +6,13 @@ import java.util.stream.Collectors;
 import sistem.tiket.bioskop.model.Movie;
 import sistem.tiket.bioskop.repository.MovieRepository;
 
-public class MovieController {
+import org.springframework.stereotype.Service;
+
+@Service
+public class MovieService {
     private MovieRepository movieRepo;
 
-    public MovieController(MovieRepository movieRepo) {
+    public MovieService(MovieRepository movieRepo) {
         this.movieRepo = movieRepo;
     }
 

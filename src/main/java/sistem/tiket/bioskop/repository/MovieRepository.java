@@ -1,11 +1,14 @@
 package sistem.tiket.bioskop.repository;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import sistem.tiket.bioskop.model.Movie;
 import sistem.tiket.bioskop.utils.CSVUtils;
 
+@Repository
 public class MovieRepository {
     List<Movie> movieList = new ArrayList<>();
     private final String CSV_PATH = "src/main/java/sistem/tiket/bioskop/data/movies.csv";

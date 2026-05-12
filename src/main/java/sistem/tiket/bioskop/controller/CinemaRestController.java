@@ -11,128 +11,36 @@ import org.springframework.web.bind.annotation.*;
 
 import sistem.tiket.bioskop.model.*;
 import sistem.tiket.bioskop.repository.*;
+import sistem.tiket.bioskop.service.*;
+import sistem.tiket.bioskop.dto.*;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class CinemaRestController {
 
-    private final AuthController authController;
-    private final MovieController movieController;
-    private final ScheduleController scheduleController;
-    private final BookingController bookingController;
+    private final AuthService authService;
+    private final MovieService movieService;
+    private final ScheduleService scheduleService;
+    private final BookingService bookingService;
+    
     private final MovieRepository movieRepo;
     private final ScheduleRepository schRepo;
     private final UserRepository userRepo;
     private final TiketRepository tiketRepo;
 
-    public CinemaRestController() {
-        this.userRepo = new UserRepository();
-        this.movieRepo = new MovieRepository();
-        this.schRepo = new ScheduleRepository(this.movieRepo);
-        this.tiketRepo = new TiketRepository();
-        this.tiketRepo.loadDataCSV(userRepo, schRepo);
-
-        this.authController = new AuthController(userRepo);
-        this.movieController = new MovieController(movieRepo);
-        this.scheduleController = new ScheduleController(schRepo);
-        this.bookingController = new BookingController(tiketRepo);
-    }
-
-    public static class LoginReq {
-        public String username;
-        public String password;
-    }
-
-    public static class RegReq {
-        public String username;
-        public String password;
-        public int saldo;
-        public String role;
-    }
-
-    public static class MovieReq {
-        public String namaFilm;
-        public int durasi;
-        public String genre;
-        public String posterUrl;
-    }
-
-    public static class ScheduleReq {
-        public String namaFilm;
-        public String namaStudio;
-        public String jamTayang;
-    }
-
-    public static class BookingReq {
-        public String username;
-        public String namaFilm;
-        public String namaStudio;
-        public String jamTayang;
-        public String seat;
-    }
-
-    public static class TopUpReq {
-        public String username;
-        public int jumlah;
-    }
-
-    public static class UserResponseDTO {
-        public String username;
-        public String role;
-        public int saldo;
-
-        public UserResponseDTO(User user) {
-            this.username = user.getUsername();
-            this.role = user.getRole();
-            this.saldo = user.getSaldo();
-        }
-    }
-
-    /**
-     * DTO untuk mengirimkan data Tiket ke client.
-     * berisi tentang informasi tiket, seperti username, nama film, nama studio, jam
-     * tayang, seat, dan harga.
-     */
-    public static class TiketDTO {
-        public String username;
-        public String namaFilm;
-        public String namaStudio;
-        public String jamTayang;
-        public String seat;
-        public int harga;
-
-        /**
-         * konstruktor untuk membuat objek TiketDTO dari objek Tiket.
-         * 
-         * @param t objek Tiket yang akan di konversi menjadi objek TiketDTO.
-         */
-        public TiketDTO(Tiket t) {
-            this.username = t.getUser() != null ? t.getUser().getUsername() : "-";
-            this.namaFilm = t.getJadwalFilm() != null && t.getJadwalFilm().getMovie() != null
-                    ? t.getJadwalFilm().getMovie().getNamaFilm()
-                    : "-";
-            this.namaStudio = t.getJadwalFilm() != null && t.getJadwalFilm().getStudio() != null
-                    ? t.getJadwalFilm().getStudio().getNamaStudio()
-                    : "-";
-            this.jamTayang = t.getJadwalFilm() != null ? t.getJadwalFilm().getJamTayang() : "-";
-            this.seat = t.getSeat();
-            this.harga = t.getHarga();
-        }
-    }
-
-    public static class ScheduleDTO {
-        public Movie movie;
-        public Studio studio;
-        public String jamTayang;
-        public int harga;
-
-        public ScheduleDTO(Schedule s) {
-            this.movie = s.getMovie();
-            this.studio = s.getStudio();
-            this.jamTayang = s.getJamTayang();
-            this.harga = s.getHarga();
-        }
+    public CinemaRestController(AuthService authService, MovieService movieService, 
+                               ScheduleService scheduleService, BookingService bookingService,
+                               MovieRepository movieRepo, ScheduleRepository schRepo,
+                               UserRepository userRepo, TiketRepository tiketRepo) {
+        this.authService = authService;
+        this.movieService = movieService;
+        this.scheduleService = scheduleService;
+        this.bookingService = bookingService;
+        this.movieRepo = movieRepo;
+        this.schRepo = schRepo;
+        this.userRepo = userRepo;
+        this.tiketRepo = tiketRepo;
     }
 
     /**
@@ -155,7 +63,7 @@ public class CinemaRestController {
     // ================= AUTHENTICATION =================
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginReq req) {
-        User user = authController.login(req.username, req.password);
+        User user = authService.login(req.username, req.password);
         if (user != null) {
             return buildResponse(HttpStatus.OK, "Login berhasil", new UserResponseDTO(user));
         }
@@ -164,7 +72,7 @@ public class CinemaRestController {
 
     @PostMapping("/auth/register")
     public ResponseEntity<?> register(@RequestBody RegReq req) {
-        boolean success = authController.register(req.username, req.password, req.saldo, req.role);
+        boolean success = authService.register(req.username, req.password, req.saldo, req.role);
         if (success) {
             return buildResponse(HttpStatus.CREATED, "Registrasi berhasil", null);
         }
@@ -174,12 +82,12 @@ public class CinemaRestController {
     // ================= MOVIES =================
     @GetMapping("/movies")
     public ResponseEntity<?> getMovies() {
-        return buildResponse(HttpStatus.OK, "Berhasil mengambil data film", movieController.getAllMovies());
+        return buildResponse(HttpStatus.OK, "Berhasil mengambil data film", movieService.getAllMovies());
     }
 
     @PostMapping("/movies")
     public ResponseEntity<?> addMovie(@RequestBody MovieReq req) {
-        boolean success = movieController.addFilm(req.namaFilm, req.durasi, req.genre, req.posterUrl);
+        boolean success = movieService.addFilm(req.namaFilm, req.durasi, req.genre, req.posterUrl);
         if (success) {
             return buildResponse(HttpStatus.CREATED, "Film berhasil ditambahkan", null);
         }
@@ -188,7 +96,7 @@ public class CinemaRestController {
 
     @DeleteMapping("/movies/{namaFilm}")
     public ResponseEntity<?> deleteMovie(@PathVariable String namaFilm) {
-        boolean success = movieController.deleteFilm(namaFilm);
+        boolean success = movieService.deleteFilm(namaFilm);
         if (success) {
             return buildResponse(HttpStatus.OK, "Film berhasil dihapus", null);
         }
@@ -198,12 +106,12 @@ public class CinemaRestController {
     // ================= STUDIOS & SCHEDULES =================
     @GetMapping("/studios")
     public ResponseEntity<?> getStudios() {
-        return buildResponse(HttpStatus.OK, "Berhasil mengambil data studio", scheduleController.getAllStudios());
+        return buildResponse(HttpStatus.OK, "Berhasil mengambil data studio", scheduleService.getAllStudios());
     }
 
     @GetMapping("/schedules")
     public ResponseEntity<?> getSchedules() {
-        List<Schedule> tickets = scheduleController.getAllSchedules();
+        List<Schedule> tickets = scheduleService.getAllSchedules();
         List<ScheduleDTO> dtoList = tickets.stream().map(ScheduleDTO::new).collect(Collectors.toList());
         return buildResponse(HttpStatus.OK, "Berhasil mengambil jadwal tayang", dtoList);
     }
@@ -219,7 +127,7 @@ public class CinemaRestController {
             return buildResponse(HttpStatus.BAD_REQUEST, "Movie atau Studio tidak valid", null);
         }
 
-        boolean success = scheduleController.addSchedule(mv, std, req.jamTayang);
+        boolean success = scheduleService.addSchedule(mv, std, req.jamTayang);
         if (success) {
             return buildResponse(HttpStatus.CREATED, "Jadwal berhasil ditambahkan", null);
         }
@@ -228,7 +136,7 @@ public class CinemaRestController {
 
     @DeleteMapping("/schedules")
     public ResponseEntity<?> deleteSchedule(@RequestBody ScheduleReq req) {
-        boolean success = scheduleController.deleteSchedule(req.namaFilm, req.namaStudio, req.jamTayang);
+        boolean success = scheduleService.deleteSchedule(req.namaFilm, req.namaStudio, req.jamTayang);
         if (success) {
             return buildResponse(HttpStatus.OK, "Jadwal berhasil dihapus", null);
         }
@@ -255,7 +163,7 @@ public class CinemaRestController {
             return buildResponse(HttpStatus.NOT_FOUND, "Jadwal tidak ditemukan", null);
         }
 
-        boolean success = bookingController.pesanTiket((Customer) user, sch, req.seat);
+        boolean success = bookingService.pesanTiket((Customer) user, sch, req.seat);
 
         if (success) {
             userRepo.saveDataToCSV();
@@ -268,7 +176,7 @@ public class CinemaRestController {
 
     @GetMapping("/users/{username}/bookings")
     public ResponseEntity<?> getUserBookings(@PathVariable String username) {
-        List<Tiket> tiketList = bookingController.getTiketByUsername(username);
+        List<Tiket> tiketList = bookingService.getTiketByUsername(username);
         List<TiketDTO> dtoList = tiketList.stream().map(TiketDTO::new).collect(Collectors.toList());
         return buildResponse(HttpStatus.OK, "Berhasil mengambil riwayat tiket", dtoList);
     }
@@ -288,7 +196,7 @@ public class CinemaRestController {
 
     @PostMapping("/users")
     public ResponseEntity<?> addUser(@RequestBody RegReq req) {
-        boolean success = authController.register(req.username, req.password, req.saldo, req.role);
+        boolean success = authService.register(req.username, req.password, req.saldo, req.role);
         if (success) {
             return buildResponse(HttpStatus.CREATED, "Registrasi berhasil", null);
         }

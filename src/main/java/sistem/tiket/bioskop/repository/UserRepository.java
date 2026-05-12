@@ -5,9 +5,12 @@ import sistem.tiket.bioskop.model.Customer;
 import sistem.tiket.bioskop.model.User;
 import sistem.tiket.bioskop.utils.CSVUtils;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class UserRepository {
     private List<User> users = new ArrayList<>();
     private final String CSV_PATH = "src/main/java/sistem/tiket/bioskop/data/users.csv";

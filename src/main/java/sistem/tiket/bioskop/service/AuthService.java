@@ -1,15 +1,18 @@
-package sistem.tiket.bioskop.controller;
+package sistem.tiket.bioskop.service;
 
 import sistem.tiket.bioskop.model.Admin;
 import sistem.tiket.bioskop.model.Customer;
 import sistem.tiket.bioskop.model.User;
 import sistem.tiket.bioskop.repository.UserRepository;
 
-public class AuthController {
+import org.springframework.stereotype.Service;
+
+@Service
+public class AuthService {
     private UserRepository userRepo;
     private User currentUser;
 
-    public AuthController(UserRepository userRepo) {
+    public AuthService(UserRepository userRepo) {
         this.userRepo = userRepo;
     }
 

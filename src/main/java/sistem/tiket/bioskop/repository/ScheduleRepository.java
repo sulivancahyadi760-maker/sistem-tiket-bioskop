@@ -1,5 +1,7 @@
 package sistem.tiket.bioskop.repository;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import sistem.tiket.bioskop.model.Schedule;
 import sistem.tiket.bioskop.model.Studio;
 import sistem.tiket.bioskop.utils.CSVUtils;
 
+@Repository
 public class ScheduleRepository {
     private List<Schedule> schedules = new ArrayList<>();
     private List<Studio> studios = new ArrayList<>();

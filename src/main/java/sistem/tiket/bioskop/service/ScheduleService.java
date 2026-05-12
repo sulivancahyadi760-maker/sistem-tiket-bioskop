@@ -1,4 +1,4 @@
-package sistem.tiket.bioskop.controller;
+package sistem.tiket.bioskop.service;
 
 import java.util.List;
 
@@ -7,10 +7,13 @@ import sistem.tiket.bioskop.model.Schedule;
 import sistem.tiket.bioskop.model.Studio;
 import sistem.tiket.bioskop.repository.ScheduleRepository;
 
-public class ScheduleController {
+import org.springframework.stereotype.Service;
+
+@Service
+public class ScheduleService {
     private ScheduleRepository schRepo;
 
-    public ScheduleController(ScheduleRepository schRepo) {
+    public ScheduleService(ScheduleRepository schRepo) {
         this.schRepo = schRepo;
     }
 

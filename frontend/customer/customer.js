@@ -131,13 +131,13 @@ async function openModal(posterUrl, movie, studio, time, price) {
 
   // perbaiki warna kuning, sebelumnya --cinematic-yellow yang tidak defined
   document.getElementById("bookingInfo").innerHTML = `
-        <div style="display: flex; gap: 20px;">
-            <img src="${posterUrl}" style="width: 120px; height: 180px; object-fit: cover; border: 1px solid var(--border-raw);">
-            <div>
-                <p style="font-size: 1.5rem; color: var(--text-primary); margin-bottom: 10px;"><strong>${movie}</strong></p>
+        <div class="booking-info-content">
+            <img src="${posterUrl}" class="booking-poster">
+            <div class="booking-text">
+                <p class="booking-movie-title"><strong>${movie}</strong></p>
                 <p><strong>Studio:</strong> ${studio}</p>
                 <p><strong>Jam:</strong> ${time}</p>
-                <p style="color: var(--accent-neon); font-size: 1.2rem; margin-top: 15px;"><strong>Rp ${price.toLocaleString("id-ID")}</strong></p>
+                <p class="booking-price"><strong>Rp ${price.toLocaleString("id-ID")}</strong></p>
             </div>
         </div>`;
 
